@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>연봉 실수령액 계산기 2026 | 세후 월급 바로 계산</title>
+<meta name="description" content="2026년 4대보험 요율과 소득세를 반영해 연봉의 월 실수령액을 계산합니다. 비과세액과 부양가족 수까지 반영합니다.">
+<link rel="canonical" href="https://your-domain.com/salary/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="연봉 실수령액 계산기 2026 | 세후 월급 바로 계산">
+<meta property="og:description" content="2026년 4대보험 요율과 소득세를 반영해 연봉의 월 실수령액을 계산합니다. 비과세액과 부양가족 수까지 반영합니다.">
+<meta property="og:url" content="https://your-domain.com/salary/">
+<meta property="og:site_name" content="급여계산 모음">
+<link rel="stylesheet" href="/assets/style.css">
+
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"실수령액이 회사에서 받은 명세서와 다릅니다.","acceptedAnswer":{"@type":"Answer","text":"회사는 국세청 간이세액표로 원천징수하고, 이 계산기는 연말정산 방식으로 추정합니다. 두 방식은 원래 차이가 나며 차액은 다음 해 2월 연말정산에서 정산됩니다."}},{"@type":"Question","name":"비과세액은 무엇을 넣어야 하나요?","acceptedAnswer":{"@type":"Answer","text":"급여명세서의 식대, 자가운전보조금, 보육수당 등 비과세 항목 합계를 넣으세요. 대부분 식대 월 20만 원입니다."}},{"@type":"Question","name":"공제대상 가족수는 어떻게 세나요?","acceptedAnswer":{"@type":"Answer","text":"본인, 연소득 100만 원 이하인 배우자, 부양 요건을 충족하는 직계존비속을 합산합니다. 혼자면 1을 넣습니다."}},{"@type":"Question","name":"국민연금은 연봉이 높아도 계속 늘어나나요?","acceptedAnswer":{"@type":"Answer","text":"아닙니다. 기준소득월액 상한이 637만 원이라 월 과세소득이 이를 넘으면 국민연금은 더 오르지 않습니다."}},{"@type":"Question","name":"연봉에 퇴직금이 포함된 경우는요?","acceptedAnswer":{"@type":"Answer","text":"퇴직금 포함 연봉이면 실제 급여는 연봉의 12/13 수준입니다. 그 금액을 연봉 칸에 넣어야 실수령액이 맞습니다."}}]}</script>
+</head>
+<body>
+<header class="hd">
+  <a class="logo" href="/">급여계산 모음</a>
+  <nav><ul><li><a href="/salary/" aria-current="page">연봉 실수령액</a></li><li><a href="/insurance/">4대보험</a></li><li><a href="/severance/">퇴직금</a></li><li><a href="/holiday-allowance/">주휴수당</a></li><li><a href="/annual-leave/">연차수당</a></li><li><a href="/wage-converter/">시급·월급 환산</a></li></ul></nav>
+</header>
+<main>
+<h1>연봉 실수령액 계산기 (2026년 기준)</h1>
+<p class="intro">연봉을 넣으면 4대보험과 소득세를 뺀 월 실수령액을 계산합니다. 2026년에 오른 국민연금 9.5%, 건강보험 7.19%를 반영했습니다.</p>
+<!-- 광고 자리 (top): 애드센스 승인 후 layout.mjs의 adsenseClient를 채우면 자동 노출 -->
+<form class="card">
+  <div class="field"><label for="annual">연봉 (원)</label><input id="annual" type="text" inputmode="numeric" data-comma value="40,000,000"></div>
+  <div class="row">
+    <div class="field"><label for="nontax">월 비과세액 (식대 등)</label><input id="nontax" type="text" inputmode="numeric" data-comma value="200,000"></div>
+    <div class="field"><label for="family">공제대상 가족수 (본인 포함)</label><input id="family" type="number" min="1" max="10" value="1"></div>
+  </div>
+  <button type="button" onclick="run()">계산하기</button>
+</form>
+<div class="result">
+  <div>월 실수령액</div>
+  <div class="big" id="net">-</div>
+  <table><thead><tr><th>항목</th><th>월 금액</th></tr></thead><tbody id="rows"></tbody></table>
+</div>
+<section class="steps"><h2>계산 과정</h2><ol>
+  <li>월 급여 = 연봉 ÷ 12</li>
+  <li>과세 대상 = 월 급여 − 비과세액 (식대는 월 20만 원까지 비과세)</li>
+  <li>국민연금 = 과세 대상 × 4.75% <span class="note-inline">(기준소득월액 상한 637만 원)</span></li>
+  <li>건강보험 = 과세 대상 × 3.595%, 장기요양 = 건강보험료 × 13.14%</li>
+  <li>고용보험 = 과세 대상 × 0.9%</li>
+  <li>소득세 = (총급여 − 근로소득공제 − 인적공제 − 보험료공제)에 기본세율을 적용하고 근로소득세액공제를 뺀 값 ÷ 12</li>
+  <li>지방소득세 = 소득세 × 10%</li>
+</ol>
+<p class="note">소득세는 연말정산 방식으로 계산한 추정치입니다. 회사가 매월 떼는 금액은 국세청 간이세액표를 쓰기 때문에 몇천 원 차이가 날 수 있고, 그 차이는 연말정산에서 정산됩니다.</p></section>
+<!-- 광고 자리 (mid): 애드센스 승인 후 layout.mjs의 adsenseClient를 채우면 자동 노출 -->
+<h2>2026년에 실수령액이 줄어든 이유</h2>
+<p>2026년부터 국민연금 요율이 9%에서 9.5%로 올랐습니다. 1998년 이후 28년 만의 인상이고, 근로자와 회사가 절반씩 부담하므로 근로자 부담은 4.5%에서 4.75%가 됐습니다. 건강보험도 7.09%에서 7.19%로, 장기요양보험은 건강보험료의 13.14%로 올랐습니다.</p>
+<p>연봉 5,000만 원 직장인이라면 이 인상분만으로 월 1만 원 안팎이 더 빠져나갑니다. 고용보험은 2026년에는 1.8%(근로자 0.9%)로 동결이지만, 2027년 2.0% 인상안이 논의되고 있습니다.</p>
+<h2>실수령액을 올리는 현실적인 방법</h2>
+<p>세전 연봉이 같아도 비과세 항목을 쓰면 실수령액이 올라갑니다. 식대는 월 20만 원까지, 자가운전보조금은 월 20만 원까지, 출산·보육수당은 월 20만 원까지 비과세입니다. 이 항목들은 4대보험 부과 대상에서도 빠지기 때문에 보험료와 세금이 동시에 줄어듭니다. 연봉 협상 때 총액만 보지 말고 비과세 구성을 확인하세요.</p>
+<section class="faq"><h2>자주 묻는 질문</h2><details><summary>실수령액이 회사에서 받은 명세서와 다릅니다.</summary><div>회사는 국세청 간이세액표로 원천징수하고, 이 계산기는 연말정산 방식으로 추정합니다. 두 방식은 원래 차이가 나며 차액은 다음 해 2월 연말정산에서 정산됩니다.</div></details><details><summary>비과세액은 무엇을 넣어야 하나요?</summary><div>급여명세서의 식대, 자가운전보조금, 보육수당 등 비과세 항목 합계를 넣으세요. 대부분 식대 월 20만 원입니다.</div></details><details><summary>공제대상 가족수는 어떻게 세나요?</summary><div>본인, 연소득 100만 원 이하인 배우자, 부양 요건을 충족하는 직계존비속을 합산합니다. 혼자면 1을 넣습니다.</div></details><details><summary>국민연금은 연봉이 높아도 계속 늘어나나요?</summary><div>아닙니다. 기준소득월액 상한이 637만 원이라 월 과세소득이 이를 넘으면 국민연금은 더 오르지 않습니다.</div></details><details><summary>연봉에 퇴직금이 포함된 경우는요?</summary><div>퇴직금 포함 연봉이면 실제 급여는 연봉의 12/13 수준입니다. 그 금액을 연봉 칸에 넣어야 실수령액이 맞습니다.</div></details></section>
+<section class="related"><h2>함께 보는 계산기</h2><ul><li><a href="/insurance/">4대보험 계산기</a></li><li><a href="/severance/">퇴직금 계산기</a></li><li><a href="/wage-converter/">시급·월급 환산 계산기</a></li></ul></section>
+<p class="disclaimer">이 계산기는 2026년 기준 법정 요율로 계산한 참고용 결과입니다. 실제 급여는 회사 규정, 비과세 항목, 부양가족 요건에 따라 달라질 수 있습니다.</p>
+</main>
+<footer>
+  <ul><li><a href="/about/">사이트 소개</a></li><li><a href="/contact/">문의</a></li><li><a href="/privacy/">개인정보처리방침</a></li><li><a href="/terms/">이용약관</a></li></ul>
+  <p>&copy; 2026 급여계산 모음</p>
+</footer>
+<script src="/assets/rates.js"></script>
+<script src="/assets/payroll.js"></script>
+<script src="/assets/site.js"></script>
+<script>function run(){
+  var annual=numOf('annual'), nontax=numOf('nontax'), family=numOf('family')||1;
+  if(annual<=0){alert('연봉을 입력해 주세요.');return;}
+  var r=Payroll.netPay(annual,{nonTaxMonthly:nontax,family:family});
+  setText('net', Payroll.won(r.net)+'원');
+  var rows=[['월 급여(세전)',r.monthlyGross],['국민연금',-r.insurance.pension],['건강보험',-r.insurance.health],['장기요양보험',-r.insurance.ltc],['고용보험',-r.insurance.employment],['소득세',-r.incomeTax],['지방소득세',-r.localTax],['공제 합계',-r.deduction],['월 실수령액',r.net]];
+  document.getElementById('rows').innerHTML=rows.map(function(x){
+    return '<tr><td>'+x[0]+'</td><td class="num">'+Payroll.won(x[1])+'원</td></tr>';}).join('');
+}
+document.addEventListener('DOMContentLoaded',run);</script>
+</body>
+</html>

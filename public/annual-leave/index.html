@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>연차수당 계산기 2026 | 미사용 연차 수당 계산</title>
+<meta name="description" content="통상임금을 기준으로 미사용 연차수당을 계산합니다. 입사 연차에 따른 연차 발생 일수도 함께 확인할 수 있습니다.">
+<link rel="canonical" href="https://your-domain.com/annual-leave/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="연차수당 계산기 2026 | 미사용 연차 수당 계산">
+<meta property="og:description" content="통상임금을 기준으로 미사용 연차수당을 계산합니다. 입사 연차에 따른 연차 발생 일수도 함께 확인할 수 있습니다.">
+<meta property="og:url" content="https://your-domain.com/annual-leave/">
+<meta property="og:site_name" content="급여계산 모음">
+<link rel="stylesheet" href="/assets/style.css">
+
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"통상임금과 평균임금은 어떻게 다른가요?","acceptedAnswer":{"@type":"Answer","text":"통상임금은 정기적·일률적으로 지급되는 고정 임금이고, 평균임금은 최근 3개월 실제 지급액 기준입니다. 연차수당은 통상임금, 퇴직금은 평균임금을 씁니다."}},{"@type":"Question","name":"209시간은 어디서 나온 숫자인가요?","acceptedAnswer":{"@type":"Answer","text":"주 40시간 근로에 주휴 8시간을 더한 48시간에 연간 주수를 곱해 월평균으로 환산한 값입니다."}},{"@type":"Question","name":"퇴사할 때 남은 연차는요?","acceptedAnswer":{"@type":"Answer","text":"퇴사 시점까지 발생한 연차 중 사용하지 않은 일수는 모두 수당으로 지급받아야 합니다."}},{"@type":"Question","name":"5인 미만 사업장도 연차가 있나요?","acceptedAnswer":{"@type":"Answer","text":"아닙니다. 연차유급휴가는 상시 5인 이상 사업장에 적용됩니다."}}]}</script>
+</head>
+<body>
+<header class="hd">
+  <a class="logo" href="/">급여계산 모음</a>
+  <nav><ul><li><a href="/salary/">연봉 실수령액</a></li><li><a href="/insurance/">4대보험</a></li><li><a href="/severance/">퇴직금</a></li><li><a href="/holiday-allowance/">주휴수당</a></li><li><a href="/annual-leave/" aria-current="page">연차수당</a></li><li><a href="/wage-converter/">시급·월급 환산</a></li></ul></nav>
+</header>
+<main>
+<h1>연차수당 계산기</h1>
+<p class="intro">쓰지 못한 연차는 수당으로 받습니다. 통상임금 기준으로 계산합니다.</p>
+<!-- 광고 자리 (top): 애드센스 승인 후 layout.mjs의 adsenseClient를 채우면 자동 노출 -->
+<form class="card">
+  <div class="row">
+    <div class="field"><label for="monthly">월 통상임금 (원)</label><input id="monthly" type="text" inputmode="numeric" data-comma value="3,000,000"></div>
+    <div class="field"><label for="daily">1일 소정근로시간</label><input id="daily" type="number" step="0.5" min="1" max="12" value="8"></div>
+  </div>
+  <div class="row">
+    <div class="field"><label for="unused">미사용 연차 일수</label><input id="unused" type="number" min="0" max="30" value="5"></div>
+    <div class="field"><label for="years">근속 연수 (연차 발생일 확인용)</label><input id="years" type="number" min="0" max="40" value="3"></div>
+  </div>
+  <button type="button" onclick="run()">계산하기</button>
+</form>
+<div class="result">
+  <div>미사용 연차수당</div><div class="big" id="amt">-</div>
+  <table><tbody id="rows"></tbody></table>
+</div>
+<section class="steps"><h2>계산 과정</h2><ol>
+  <li>통상시급 = 월 통상임금 ÷ 209시간</li>
+  <li>1일 연차수당 = 통상시급 × 1일 소정근로시간</li>
+  <li>연차수당 = 1일 연차수당 × 미사용 일수</li>
+</ol>
+<p class="note">통상임금에는 기본급과 정기적·일률적으로 지급되는 고정수당이 들어갑니다. 성과급처럼 변동되는 금액은 제외합니다.</p></section>
+<!-- 광고 자리 (mid): 애드센스 승인 후 layout.mjs의 adsenseClient를 채우면 자동 노출 -->
+<h2>연차는 몇 개 생기나요</h2>
+<p>1년 미만 근무자는 1개월 개근마다 1일씩, 최대 11일이 생깁니다. 1년 이상이면 15일이고, 3년째부터 2년마다 1일씩 늘어 최대 25일까지 발생합니다. 예를 들어 근속 5년이면 16일, 7년이면 17일입니다.</p>
+<h2>연차수당 청구권은 3년입니다</h2>
+<p>미사용 연차수당은 발생일로부터 3년 안에 청구할 수 있습니다. 다만 회사가 서면으로 연차 사용을 촉진했고 절차를 지켰다면 수당 지급 의무가 없어질 수 있습니다. 이를 연차사용촉진제도라고 합니다.</p>
+<section class="faq"><h2>자주 묻는 질문</h2><details><summary>통상임금과 평균임금은 어떻게 다른가요?</summary><div>통상임금은 정기적·일률적으로 지급되는 고정 임금이고, 평균임금은 최근 3개월 실제 지급액 기준입니다. 연차수당은 통상임금, 퇴직금은 평균임금을 씁니다.</div></details><details><summary>209시간은 어디서 나온 숫자인가요?</summary><div>주 40시간 근로에 주휴 8시간을 더한 48시간에 연간 주수를 곱해 월평균으로 환산한 값입니다.</div></details><details><summary>퇴사할 때 남은 연차는요?</summary><div>퇴사 시점까지 발생한 연차 중 사용하지 않은 일수는 모두 수당으로 지급받아야 합니다.</div></details><details><summary>5인 미만 사업장도 연차가 있나요?</summary><div>아닙니다. 연차유급휴가는 상시 5인 이상 사업장에 적용됩니다.</div></details></section>
+<section class="related"><h2>함께 보는 계산기</h2><ul><li><a href="/severance/">퇴직금 계산기</a></li><li><a href="/salary/">연봉 실수령액 계산기</a></li></ul></section>
+<p class="disclaimer">이 계산기는 2026년 기준 법정 요율로 계산한 참고용 결과입니다. 실제 급여는 회사 규정, 비과세 항목, 부양가족 요건에 따라 달라질 수 있습니다.</p>
+</main>
+<footer>
+  <ul><li><a href="/about/">사이트 소개</a></li><li><a href="/contact/">문의</a></li><li><a href="/privacy/">개인정보처리방침</a></li><li><a href="/terms/">이용약관</a></li></ul>
+  <p>&copy; 2026 급여계산 모음</p>
+</footer>
+<script src="/assets/rates.js"></script>
+<script src="/assets/payroll.js"></script>
+<script src="/assets/site.js"></script>
+<script>function run(){
+  var m=numOf('monthly'), d=numOf('daily'), u=numOf('unused'), y=numOf('years');
+  var hourly=m/209, perDay=hourly*d, amt=perDay*u;
+  var days = y<1?'최대 11일 (1개월 개근당 1일)' : Math.min(15+Math.floor(Math.max(y-1,0)/2),25)+'일';
+  setText('amt',Payroll.won(amt)+'원');
+  var rows=[['통상시급',Payroll.won(hourly)+'원'],['1일 연차수당',Payroll.won(perDay)+'원'],['근속 '+y+'년 연차 발생',days]];
+  document.getElementById('rows').innerHTML=rows.map(function(x){return '<tr><td>'+x[0]+'</td><td class="num">'+x[1]+'</td></tr>';}).join('');
+}
+document.addEventListener('DOMContentLoaded',run);</script>
+</body>
+</html>

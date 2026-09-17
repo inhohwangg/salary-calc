@@ -1,0 +1,10 @@
+{
+  // Cloudflare Workers 정적 자산 배포 설정
+  // public/ 폴더의 파일만 서빙하는 assets-only Worker 입니다. 서버 코드(main) 없음.
+  "name": "salary-calc",
+  "compatibility_date": "2026-09-17",
+  "assets": {
+    "directory": "./public",
+    "not_found_handling": "404-page"
+  }
+}

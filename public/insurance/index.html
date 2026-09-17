@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>4대보험 계산기 2026 | 근로자·사업주 부담금</title>
+<meta name="description" content="2026년 요율로 국민연금, 건강보험, 장기요양보험, 고용보험의 근로자 부담과 사업주 부담을 각각 계산합니다.">
+<link rel="canonical" href="https://your-domain.com/insurance/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="4대보험 계산기 2026 | 근로자·사업주 부담금">
+<meta property="og:description" content="2026년 요율로 국민연금, 건강보험, 장기요양보험, 고용보험의 근로자 부담과 사업주 부담을 각각 계산합니다.">
+<meta property="og:url" content="https://your-domain.com/insurance/">
+<meta property="og:site_name" content="급여계산 모음">
+<link rel="stylesheet" href="/assets/style.css">
+
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"산재보험은 왜 빠져 있나요?","acceptedAnswer":{"@type":"Answer","text":"산재보험료율은 업종별로 0.7%에서 18%대까지 크게 다르고 전액 사업주가 부담합니다. 업종 요율은 근로복지공단에서 확인할 수 있습니다."}},{"@type":"Question","name":"아르바이트도 4대보험에 가입하나요?","acceptedAnswer":{"@type":"Answer","text":"월 60시간 이상 근무하면 원칙적으로 가입 대상입니다. 초단시간 근로자는 산재보험만 적용되는 경우가 많습니다."}},{"@type":"Question","name":"보험료는 어디서 떼나요?","acceptedAnswer":{"@type":"Answer","text":"비과세 항목을 제외한 과세 대상 급여를 기준으로 부과합니다. 식대 등 비과세는 부과 대상에서 빠집니다."}},{"@type":"Question","name":"건강보험료 정산이란 무엇인가요?","acceptedAnswer":{"@type":"Answer","text":"전년도 보수총액을 기준으로 4월에 정산합니다. 급여가 오른 해에는 4월에 추가 납부가 발생할 수 있습니다."}}]}</script>
+</head>
+<body>
+<header class="hd">
+  <a class="logo" href="/">급여계산 모음</a>
+  <nav><ul><li><a href="/salary/">연봉 실수령액</a></li><li><a href="/insurance/" aria-current="page">4대보험</a></li><li><a href="/severance/">퇴직금</a></li><li><a href="/holiday-allowance/">주휴수당</a></li><li><a href="/annual-leave/">연차수당</a></li><li><a href="/wage-converter/">시급·월급 환산</a></li></ul></nav>
+</header>
+<main>
+<h1>4대보험 계산기 (2026년 요율)</h1>
+<p class="intro">월 급여를 넣으면 근로자와 사업주가 각각 내는 보험료를 계산합니다.</p>
+<!-- 광고 자리 (top): 애드센스 승인 후 layout.mjs의 adsenseClient를 채우면 자동 노출 -->
+<form class="card">
+  <div class="field"><label for="pay">월 급여 (과세 대상, 원)</label><input id="pay" type="text" inputmode="numeric" data-comma value="3,000,000"></div>
+  <div class="field"><label for="size">사업장 규모 (고용안정·직업능력개발 부담분)</label>
+    <select id="size">
+      <option value="0.0025">150인 미만 (0.25%)</option>
+      <option value="0.0045">150인 이상 우선지원 대상기업 (0.45%)</option>
+      <option value="0.0065">150인 이상 1,000인 미만 (0.65%)</option>
+      <option value="0.0085">1,000인 이상·국가지자체 (0.85%)</option>
+    </select></div>
+  <button type="button" onclick="run()">계산하기</button>
+</form>
+<div class="result">
+  <div>근로자 부담 합계</div><div class="big" id="emp">-</div>
+  <table><thead><tr><th>항목</th><th>근로자</th><th>사업주</th></tr></thead><tbody id="rows"></tbody></table>
+</div>
+<section class="steps"><h2>계산 과정</h2><ol>
+  <li>국민연금 9.5%를 근로자와 사업주가 절반씩 부담합니다 (각 4.75%).</li>
+  <li>건강보험 7.19%도 절반씩 부담합니다 (각 3.595%).</li>
+  <li>장기요양보험은 건강보험료의 13.14%이며 역시 절반씩 부담합니다.</li>
+  <li>고용보험 실업급여분 1.8%는 절반씩, 고용안정·직업능력개발 부담분은 사업주만 냅니다.</li>
+  <li>산재보험은 전액 사업주 부담이며 업종별로 요율이 달라 이 계산기에는 포함하지 않았습니다.</li>
+</ol></section>
+<!-- 광고 자리 (mid): 애드센스 승인 후 layout.mjs의 adsenseClient를 채우면 자동 노출 -->
+<h2>2026년 달라진 요율</h2>
+<p>국민연금은 9%에서 9.5%로, 건강보험은 7.09%에서 7.19%로 올랐습니다. 장기요양보험료율은 소득 대비 0.9448%로 건강보험료의 13.14% 수준입니다. 고용보험 실업급여분은 1.8%로 유지됐습니다.</p>
+<h2>국민연금에는 상한과 하한이 있습니다</h2>
+<p>기준소득월액 상한은 637만 원, 하한은 40만 원입니다. 월 소득이 상한을 넘어도 국민연금 보험료는 더 이상 늘지 않습니다. 이 기준은 매년 7월에 바뀝니다.</p>
+<section class="faq"><h2>자주 묻는 질문</h2><details><summary>산재보험은 왜 빠져 있나요?</summary><div>산재보험료율은 업종별로 0.7%에서 18%대까지 크게 다르고 전액 사업주가 부담합니다. 업종 요율은 근로복지공단에서 확인할 수 있습니다.</div></details><details><summary>아르바이트도 4대보험에 가입하나요?</summary><div>월 60시간 이상 근무하면 원칙적으로 가입 대상입니다. 초단시간 근로자는 산재보험만 적용되는 경우가 많습니다.</div></details><details><summary>보험료는 어디서 떼나요?</summary><div>비과세 항목을 제외한 과세 대상 급여를 기준으로 부과합니다. 식대 등 비과세는 부과 대상에서 빠집니다.</div></details><details><summary>건강보험료 정산이란 무엇인가요?</summary><div>전년도 보수총액을 기준으로 4월에 정산합니다. 급여가 오른 해에는 4월에 추가 납부가 발생할 수 있습니다.</div></details></section>
+<section class="related"><h2>함께 보는 계산기</h2><ul><li><a href="/salary/">연봉 실수령액 계산기</a></li><li><a href="/wage-converter/">시급·월급 환산 계산기</a></li></ul></section>
+<p class="disclaimer">이 계산기는 2026년 기준 법정 요율로 계산한 참고용 결과입니다. 실제 급여는 회사 규정, 비과세 항목, 부양가족 요건에 따라 달라질 수 있습니다.</p>
+</main>
+<footer>
+  <ul><li><a href="/about/">사이트 소개</a></li><li><a href="/contact/">문의</a></li><li><a href="/privacy/">개인정보처리방침</a></li><li><a href="/terms/">이용약관</a></li></ul>
+  <p>&copy; 2026 급여계산 모음</p>
+</footer>
+<script src="/assets/rates.js"></script>
+<script src="/assets/payroll.js"></script>
+<script src="/assets/site.js"></script>
+<script>function run(){
+  var pay=numOf('pay'); var extra=Number(document.getElementById('size').value);
+  var i=Payroll.insurance(pay);
+  var empExtra=Payroll.floor10(pay*extra);
+  var rows=[['국민연금',i.pension,i.pension],['건강보험',i.health,i.health],['장기요양보험',i.ltc,i.ltc],['고용보험(실업급여)',i.employment,i.employment],['고용안정·직업능력개발',0,empExtra],['합계',i.total,i.total+empExtra]];
+  setText('emp',Payroll.won(i.total)+'원');
+  document.getElementById('rows').innerHTML=rows.map(function(x){
+    return '<tr><td>'+x[0]+'</td><td class="num">'+Payroll.won(x[1])+'원</td><td class="num">'+Payroll.won(x[2])+'원</td></tr>';}).join('');
+}
+document.addEventListener('DOMContentLoaded',run);</script>
+</body>
+</html>

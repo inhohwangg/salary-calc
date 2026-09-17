@@ -1,0 +1,11 @@
+{
+  "name": "salary-calculators",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "node build.mjs",
+    "dev": "node build.mjs && npx --yes serve public -l 8080",
+    "set-domain": "node scripts/set-domain.mjs"
+  }
+}
