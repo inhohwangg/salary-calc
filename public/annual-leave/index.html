@@ -6,7 +6,7 @@
 <title>연차수당 계산기 2026 | 미사용 연차 수당 계산</title>
 <meta name="description" content="통상임금을 기준으로 미사용 연차수당을 계산합니다. 입사 연차에 따른 연차 발생 일수도 함께 확인할 수 있습니다.">
 <link rel="canonical" href="https://your-domain.com/annual-leave/">
-<meta name="theme-color" content="#0A0F1E">
+<meta id="themeColor" name="theme-color" content="#0A0F1E">
 <meta property="og:type" content="website">
 <meta property="og:title" content="연차수당 계산기 2026 | 미사용 연차 수당 계산">
 <meta property="og:description" content="통상임금을 기준으로 미사용 연차수당을 계산합니다. 입사 연차에 따른 연차 발생 일수도 함께 확인할 수 있습니다.">
@@ -15,13 +15,20 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&family=Noto+Serif+KR:wght@400;500;600&family=Roboto+Mono:wght@400;500;600&family=Source+Serif+4:wght@400;600&display=swap">
+<link rel="manifest" href="/manifest.webmanifest">
+<link rel="icon" href="/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/icon.svg">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="급여계산">
 <link id="theme" rel="stylesheet" href="/assets/theme-dark.css">
+<link rel="stylesheet" href="/assets/pwa.css">
 <script>/* 저장된 테마를 그리기 전에 적용 — 깜빡임 방지 */
-(function(){try{var t=localStorage.getItem('theme');if(t==='news'||t==='dark'){document.documentElement.setAttribute('data-theme',t);document.getElementById('theme').href='/assets/theme-'+t+'.css';}}catch(e){}})();</script>
+(function(){try{var t=localStorage.getItem('theme');if(t==='news'||t==='dark'){document.documentElement.setAttribute('data-theme',t);document.getElementById('theme').href='/assets/theme-'+t+'.css';document.getElementById('themeColor').content=t==='news'?'#f3f2f2':'#0A0F1E';}}catch(e){}})();</script>
 
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"통상임금과 평균임금은 어떻게 다른가요?","acceptedAnswer":{"@type":"Answer","text":"통상임금은 정기적·일률적으로 지급되는 고정 임금이고, 평균임금은 최근 3개월 실제 지급액 기준입니다. 연차수당은 통상임금, 퇴직금은 평균임금을 씁니다."}},{"@type":"Question","name":"209시간은 어디서 나온 숫자인가요?","acceptedAnswer":{"@type":"Answer","text":"주 40시간 근로에 주휴 8시간을 더한 48시간에 연간 주수를 곱해 월평균으로 환산한 값입니다."}},{"@type":"Question","name":"퇴사할 때 남은 연차는요?","acceptedAnswer":{"@type":"Answer","text":"퇴사 시점까지 발생한 연차 중 사용하지 않은 일수는 모두 수당으로 지급받아야 합니다."}},{"@type":"Question","name":"5인 미만 사업장도 연차가 있나요?","acceptedAnswer":{"@type":"Answer","text":"아닙니다. 연차유급휴가는 상시 5인 이상 사업장에 적용됩니다."}}]}</script>
 </head>
 <body>
+<div class="pwa-offline" role="status">오프라인 · 저장된 2026 요율로 계산 중</div>
 <div class="shell">
 <aside class="side">
   <a class="brand" href="/"><span class="mark">₩</span><span class="bt"><b>급여계산</b><i>PAYROLL 2026</i></span></a>
@@ -75,9 +82,29 @@
 </div>
 </main>
 </div>
+
+<nav class="pwa-tabs" aria-label="계산기 탭">
+  <a href="/salary/"><span aria-hidden="true">₩</span><span>실수령액</span></a><a href="/insurance/"><span aria-hidden="true">4</span><span>4대보험</span></a><a href="/wage-converter/"><span aria-hidden="true">시</span><span>환산</span></a><a href="/table/salary-2026/"><span aria-hidden="true">표</span><span>일람</span></a>
+</nav>
+
+<div class="pwa-install" role="dialog" aria-labelledby="pwaTitle">
+  <div class="pwa-install-head">
+    <div class="pwa-install-mark" aria-hidden="true">₩</div>
+    <div class="pwa-install-text">
+      <strong id="pwaTitle">홈 화면에 추가</strong>
+      <span>주소창 없이 열리고 오프라인에서도 계산됩니다.</span>
+    </div>
+  </div>
+  <div class="pwa-install-actions">
+    <button type="button" id="pwaAdd">추가</button>
+    <button type="button" id="pwaLater" class="ghost later">나중에</button>
+  </div>
+</div>
+
 <script src="/assets/rates.js"></script>
 <script src="/assets/payroll.js"></script>
 <script src="/assets/site.js"></script>
+<script src="/assets/pwa.js" defer></script>
 <script>function run(){
   var m=numOf('monthly'), d=numOf('daily'), u=numOf('unused'), y=numOf('years');
   var hourly=m/209, perDay=hourly*d, amt=perDay*u;

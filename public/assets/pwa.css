@@ -1,0 +1,42 @@
+/* PWA 화면 구조 — 위치·안전영역·표시조건만 정합니다.
+   색과 활자는 각 테마(theme-dark.css / theme-news.css)가 맡습니다. */
+
+/* 안전 영역: 노치와 제스처 바 */
+body{padding-bottom:env(safe-area-inset-bottom)}
+
+/* ---- 오프라인 띠 ---- */
+.pwa-offline{display:none;position:sticky;top:0;z-index:20;
+  padding:calc(10px + env(safe-area-inset-top)) 16px 10px;text-align:center}
+html.is-offline .pwa-offline{display:block}
+
+/* ---- 설치 권유 띠 ---- */
+.pwa-install{display:none;position:fixed;left:0;right:0;bottom:0;z-index:30;
+  padding:18px 22px calc(18px + env(safe-area-inset-bottom));
+  flex-direction:column;gap:14px}
+html.can-install .pwa-install{display:flex}
+.pwa-install-head{display:flex;gap:12px;align-items:flex-start}
+.pwa-install-mark{width:44px;height:44px;flex:none;display:flex;align-items:center;justify-content:center}
+.pwa-install-text{display:flex;flex-direction:column;gap:3px;min-width:0}
+.pwa-install-actions{display:flex;gap:10px}
+.pwa-install-actions button{flex:1}
+.pwa-install-actions button.later{flex:none}
+
+/* ---- 하단 탭 — 앱 모드에서만 ---- */
+.pwa-tabs{display:none;position:fixed;left:0;right:0;bottom:0;z-index:25}
+.pwa-tabs a{flex:1;min-width:0;display:flex;flex-direction:column;align-items:center;gap:4px;
+  padding:12px 0 calc(12px + env(safe-area-inset-bottom));text-align:center}
+
+@media (display-mode: standalone), (display-mode: minimal-ui){
+  .pwa-tabs{display:flex}
+  /* 앱 모드에는 뒤로 가기가 없어 탭이 이동을 맡습니다. 위쪽 목차는 접습니다. */
+  .side nav{display:none}
+  .theme-btn{display:none}
+  /* 탭 바에 본문이 가리지 않도록 */
+  .content{padding-bottom:calc(96px + env(safe-area-inset-bottom))}
+  .pwa-install{bottom:calc(64px + env(safe-area-inset-bottom))}
+}
+
+/* 설치된 뒤에는 권유 띠를 띄우지 않습니다 */
+@media (display-mode: standalone), (display-mode: minimal-ui){
+  html.can-install .pwa-install{display:none}
+}

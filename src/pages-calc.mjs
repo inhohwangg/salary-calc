@@ -6,7 +6,7 @@ export const calcPages = [
   h1: '연봉 실수령액 계산기 (2026년 기준)',
   intro: '연봉을 넣으면 4대보험과 소득세를 뺀 월 실수령액을 계산합니다. 2026년에 오른 국민연금 9.5%, 건강보험 7.19%를 반영했습니다.',
   body: `<form class="card">
-  <div class="field field--lead"><label for="annual">연봉 (원)</label><input id="annual" type="text" inputmode="numeric" data-comma value="40,000,000">
+  <div class="field field--lead step"><label for="annual">세전 연봉 (원)</label><input id="annual" type="text" inputmode="numeric" data-comma value="40,000,000">
     <ul class="chips">
       <li><button type="button" onclick="setAnnual(30000000)">3,000만</button></li>
       <li><button type="button" onclick="setAnnual(40000000)">4,000만</button></li>
@@ -16,9 +16,22 @@ export const calcPages = [
       <li><button type="button" onclick="setAnnual(100000000)">1억</button></li>
     </ul>
   </div>
-  <div class="row">
-    <div class="field"><label for="nontax">월 비과세액 (식대 등)</label><input id="nontax" type="text" inputmode="numeric" data-comma value="200,000"></div>
-    <div class="field"><label for="family">공제대상 가족수 (본인 포함)</label><input id="family" type="number" min="1" max="10" value="1"></div>
+  <div class="field step"><label for="nontax">월 비과세액 (식대 등)</label><input id="nontax" type="text" inputmode="numeric" data-comma value="200,000">
+    <ul class="chips">
+      <li><button type="button" onclick="setNontax(0)">없음</button></li>
+      <li><button type="button" onclick="setNontax(100000)">10만</button></li>
+      <li><button type="button" onclick="setNontax(200000)">20만</button></li>
+      <li><button type="button" onclick="setNontax(400000)">40만</button></li>
+    </ul>
+    <p class="note">식대는 월 20만 원까지 비과세이고 4대보험 부과 대상에서도 빠집니다.</p>
+  </div>
+  <div class="field step"><label for="family">공제대상 가족수 (본인 포함)</label>
+    <div class="stepper">
+      <button type="button" onclick="stepFamily(-1)" aria-label="가족수 줄이기">−</button>
+      <input id="family" type="number" min="1" max="10" value="1">
+      <button type="button" onclick="stepFamily(1)" aria-label="가족수 늘리기">+</button>
+    </div>
+    <p class="note">본인, 연소득 100만 원 이하 배우자, 부양 요건을 충족하는 직계존비속을 합산합니다. 혼자면 1입니다.</p>
   </div>
 </form>
 <div class="result">
@@ -54,6 +67,15 @@ export const calcPages = [
   related: ['/insurance/', '/severance/', '/wage-converter/'],
   script: `function setAnnual(v){
   document.getElementById('annual').value=v.toLocaleString('ko-KR');
+  run();
+}
+function setNontax(v){
+  document.getElementById('nontax').value=v.toLocaleString('ko-KR');
+  run();
+}
+function stepFamily(d){
+  var el=document.getElementById('family');
+  el.value=Math.min(Math.max((numOf('family')||1)+d,1),10);
   run();
 }
 function run(){

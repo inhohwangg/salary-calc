@@ -5,6 +5,8 @@ function currentTheme() { return document.documentElement.getAttribute('data-the
 function applyTheme(t) {
   document.documentElement.setAttribute('data-theme', t);
   document.getElementById('theme').href = '/assets/theme-' + t + '.css';
+  var c = document.getElementById('themeColor');
+  if (c) c.content = t === 'news' ? '#f3f2f2' : '#0A0F1E';
   var b = document.getElementById('themeBtn');
   if (b) b.textContent = THEME_LABEL[t];
 }

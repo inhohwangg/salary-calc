@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512" role="img" aria-label="급여계산">
+  <rect x="8" y="8" width="496" height="496" fill="#f3f2f2" stroke="#201e1d" stroke-width="16"/>
+  <text x="256" y="256" fill="#201e1d" font-family="'Source Serif 4',Georgia,'Times New Roman',serif"
+        font-size="272" text-anchor="middle" dominant-baseline="central">&#8361;</text>
+</svg>

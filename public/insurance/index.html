@@ -6,7 +6,7 @@
 <title>4대보험 계산기 2026 | 근로자·사업주 부담금</title>
 <meta name="description" content="2026년 요율로 국민연금, 건강보험, 장기요양보험, 고용보험의 근로자 부담과 사업주 부담을 각각 계산합니다.">
 <link rel="canonical" href="https://your-domain.com/insurance/">
-<meta name="theme-color" content="#0A0F1E">
+<meta id="themeColor" name="theme-color" content="#0A0F1E">
 <meta property="og:type" content="website">
 <meta property="og:title" content="4대보험 계산기 2026 | 근로자·사업주 부담금">
 <meta property="og:description" content="2026년 요율로 국민연금, 건강보험, 장기요양보험, 고용보험의 근로자 부담과 사업주 부담을 각각 계산합니다.">
@@ -15,13 +15,20 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&family=Noto+Serif+KR:wght@400;500;600&family=Roboto+Mono:wght@400;500;600&family=Source+Serif+4:wght@400;600&display=swap">
+<link rel="manifest" href="/manifest.webmanifest">
+<link rel="icon" href="/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/icon.svg">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="급여계산">
 <link id="theme" rel="stylesheet" href="/assets/theme-dark.css">
+<link rel="stylesheet" href="/assets/pwa.css">
 <script>/* 저장된 테마를 그리기 전에 적용 — 깜빡임 방지 */
-(function(){try{var t=localStorage.getItem('theme');if(t==='news'||t==='dark'){document.documentElement.setAttribute('data-theme',t);document.getElementById('theme').href='/assets/theme-'+t+'.css';}}catch(e){}})();</script>
+(function(){try{var t=localStorage.getItem('theme');if(t==='news'||t==='dark'){document.documentElement.setAttribute('data-theme',t);document.getElementById('theme').href='/assets/theme-'+t+'.css';document.getElementById('themeColor').content=t==='news'?'#f3f2f2':'#0A0F1E';}}catch(e){}})();</script>
 
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"산재보험은 왜 빠져 있나요?","acceptedAnswer":{"@type":"Answer","text":"산재보험료율은 업종별로 0.7%에서 18%대까지 크게 다르고 전액 사업주가 부담합니다. 업종 요율은 근로복지공단에서 확인할 수 있습니다."}},{"@type":"Question","name":"아르바이트도 4대보험에 가입하나요?","acceptedAnswer":{"@type":"Answer","text":"월 60시간 이상 근무하면 원칙적으로 가입 대상입니다. 초단시간 근로자는 산재보험만 적용되는 경우가 많습니다."}},{"@type":"Question","name":"보험료는 어디서 떼나요?","acceptedAnswer":{"@type":"Answer","text":"비과세 항목을 제외한 과세 대상 급여를 기준으로 부과합니다. 식대 등 비과세는 부과 대상에서 빠집니다."}},{"@type":"Question","name":"건강보험료 정산이란 무엇인가요?","acceptedAnswer":{"@type":"Answer","text":"전년도 보수총액을 기준으로 4월에 정산합니다. 급여가 오른 해에는 4월에 추가 납부가 발생할 수 있습니다."}}]}</script>
 </head>
 <body>
+<div class="pwa-offline" role="status">오프라인 · 저장된 2026 요율로 계산 중</div>
 <div class="shell">
 <aside class="side">
   <a class="brand" href="/"><span class="mark">₩</span><span class="bt"><b>급여계산</b><i>PAYROLL 2026</i></span></a>
@@ -88,9 +95,29 @@
 </div>
 </main>
 </div>
+
+<nav class="pwa-tabs" aria-label="계산기 탭">
+  <a href="/salary/"><span aria-hidden="true">₩</span><span>실수령액</span></a><a href="/insurance/" aria-current="page"><span aria-hidden="true">4</span><span>4대보험</span></a><a href="/wage-converter/"><span aria-hidden="true">시</span><span>환산</span></a><a href="/table/salary-2026/"><span aria-hidden="true">표</span><span>일람</span></a>
+</nav>
+
+<div class="pwa-install" role="dialog" aria-labelledby="pwaTitle">
+  <div class="pwa-install-head">
+    <div class="pwa-install-mark" aria-hidden="true">₩</div>
+    <div class="pwa-install-text">
+      <strong id="pwaTitle">홈 화면에 추가</strong>
+      <span>주소창 없이 열리고 오프라인에서도 계산됩니다.</span>
+    </div>
+  </div>
+  <div class="pwa-install-actions">
+    <button type="button" id="pwaAdd">추가</button>
+    <button type="button" id="pwaLater" class="ghost later">나중에</button>
+  </div>
+</div>
+
 <script src="/assets/rates.js"></script>
 <script src="/assets/payroll.js"></script>
 <script src="/assets/site.js"></script>
+<script src="/assets/pwa.js" defer></script>
 <script>function setPay(v){
   document.getElementById('pay').value=v.toLocaleString('ko-KR');
   run();

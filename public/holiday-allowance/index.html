@@ -6,7 +6,7 @@
 <title>주휴수당 계산기 2026 | 주 15시간 알바 주휴수당</title>
 <meta name="description" content="2026년 최저임금 10,320원 기준으로 주휴수당을 계산합니다. 주 소정근로시간만 넣으면 주급과 월 환산액까지 나옵니다.">
 <link rel="canonical" href="https://your-domain.com/holiday-allowance/">
-<meta name="theme-color" content="#0A0F1E">
+<meta id="themeColor" name="theme-color" content="#0A0F1E">
 <meta property="og:type" content="website">
 <meta property="og:title" content="주휴수당 계산기 2026 | 주 15시간 알바 주휴수당">
 <meta property="og:description" content="2026년 최저임금 10,320원 기준으로 주휴수당을 계산합니다. 주 소정근로시간만 넣으면 주급과 월 환산액까지 나옵니다.">
@@ -15,13 +15,20 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&family=Noto+Serif+KR:wght@400;500;600&family=Roboto+Mono:wght@400;500;600&family=Source+Serif+4:wght@400;600&display=swap">
+<link rel="manifest" href="/manifest.webmanifest">
+<link rel="icon" href="/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/icon.svg">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="급여계산">
 <link id="theme" rel="stylesheet" href="/assets/theme-dark.css">
+<link rel="stylesheet" href="/assets/pwa.css">
 <script>/* 저장된 테마를 그리기 전에 적용 — 깜빡임 방지 */
-(function(){try{var t=localStorage.getItem('theme');if(t==='news'||t==='dark'){document.documentElement.setAttribute('data-theme',t);document.getElementById('theme').href='/assets/theme-'+t+'.css';}}catch(e){}})();</script>
+(function(){try{var t=localStorage.getItem('theme');if(t==='news'||t==='dark'){document.documentElement.setAttribute('data-theme',t);document.getElementById('theme').href='/assets/theme-'+t+'.css';document.getElementById('themeColor').content=t==='news'?'#f3f2f2':'#0A0F1E';}}catch(e){}})();</script>
 
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"주 15시간을 겨우 넘기면 얼마나 받나요?","acceptedAnswer":{"@type":"Answer","text":"주 15시간이면 주휴시간은 3시간이고, 2026년 최저임금 기준 30,960원입니다."}},{"@type":"Question","name":"월급제도 주휴수당을 따로 받나요?","acceptedAnswer":{"@type":"Answer","text":"월급제는 이미 주휴수당이 포함된 209시간 기준으로 책정되는 것이 일반적입니다. 급여명세서의 소정근로시간을 확인하세요."}},{"@type":"Question","name":"5인 미만 사업장도 해당되나요?","acceptedAnswer":{"@type":"Answer","text":"네. 주휴수당은 사업장 규모와 관계없이 적용됩니다."}},{"@type":"Question","name":"주휴수당을 안 주면 어떻게 하나요?","acceptedAnswer":{"@type":"Answer","text":"임금 체불에 해당합니다. 고용노동부 홈페이지나 관할 노동청에 진정을 넣을 수 있고, 3년 이내 청구가 가능합니다."}}]}</script>
 </head>
 <body>
+<div class="pwa-offline" role="status">오프라인 · 저장된 2026 요율로 계산 중</div>
 <div class="shell">
 <aside class="side">
   <a class="brand" href="/"><span class="mark">₩</span><span class="bt"><b>급여계산</b><i>PAYROLL 2026</i></span></a>
@@ -83,9 +90,29 @@
 </div>
 </main>
 </div>
+
+<nav class="pwa-tabs" aria-label="계산기 탭">
+  <a href="/salary/"><span aria-hidden="true">₩</span><span>실수령액</span></a><a href="/insurance/"><span aria-hidden="true">4</span><span>4대보험</span></a><a href="/wage-converter/"><span aria-hidden="true">시</span><span>환산</span></a><a href="/table/salary-2026/"><span aria-hidden="true">표</span><span>일람</span></a>
+</nav>
+
+<div class="pwa-install" role="dialog" aria-labelledby="pwaTitle">
+  <div class="pwa-install-head">
+    <div class="pwa-install-mark" aria-hidden="true">₩</div>
+    <div class="pwa-install-text">
+      <strong id="pwaTitle">홈 화면에 추가</strong>
+      <span>주소창 없이 열리고 오프라인에서도 계산됩니다.</span>
+    </div>
+  </div>
+  <div class="pwa-install-actions">
+    <button type="button" id="pwaAdd">추가</button>
+    <button type="button" id="pwaLater" class="ghost later">나중에</button>
+  </div>
+</div>
+
 <script src="/assets/rates.js"></script>
 <script src="/assets/payroll.js"></script>
 <script src="/assets/site.js"></script>
+<script src="/assets/pwa.js" defer></script>
 <script>function setWage(v){document.getElementById('wage').value=v.toLocaleString('ko-KR');run();}
 function setHours(v){document.getElementById('hours').value=v;run();}
 function run(){

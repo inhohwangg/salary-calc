@@ -63,6 +63,15 @@ input[type=number],input[type=text],input[type=date],select{width:100%;padding:1
 input:focus,select:focus{border-color:var(--accent)}
 input[inputmode=numeric],input[inputmode=decimal],input[type=number]{text-align:right}
 .field--lead input{padding:14px 16px;font-weight:300;font-size:30px;letter-spacing:-1px}
+/* 단계 번호 — 마크업이 아니라 카운터로 매깁니다 */
+.card{counter-reset:step}
+.field.step>label::before{counter-increment:step;content:counter(step);
+  display:inline-block;width:16px;font:400 11px/1 var(--mono);color:var(--accent)}
+.stepper{display:flex;align-items:center;gap:12px}
+.stepper button{width:52px;height:52px;flex:none;padding:0;border-radius:10px;
+  background:var(--input);border:.5px solid var(--line);color:var(--fg);font:400 22px/1 var(--mono)}
+.stepper button:hover{background:var(--line);opacity:1}
+.stepper input{flex:1;min-width:0;height:52px;text-align:center;font-weight:300;font-size:30px;padding:0}
 .row{display:flex;gap:12px;flex-wrap:wrap}.row>*{flex:1 1 160px}
 button{padding:13px 24px;border:.5px solid var(--accent);border-radius:10px;background:var(--accent);color:#000;font:600 14px/1 var(--sans);cursor:pointer;transition:opacity var(--ease)}
 button:hover{opacity:.85}
@@ -123,6 +132,12 @@ tr.tot td:first-child{font-weight:500;color:var(--fg)}
 tr.on td{color:var(--accent)}
 tr.on td.num{font-size:20px;letter-spacing:-.5px}
 td.num{font-variant-numeric:tabular-nums}
+/* 표 셀은 flex 로 만들지 않습니다 — 셀 상자를 깨지 않도록 인라인으로 둡니다 */
+td.rate{text-align:right;white-space:nowrap}
+.tbar{display:inline-block;vertical-align:middle;width:56px;height:6px;margin-right:8px;
+  border-radius:999px;background:var(--input);overflow:hidden}
+.tbar i{display:block;height:100%;border-radius:999px;background:var(--accent)}
+td.rate b{display:inline-block;width:44px;text-align:right;font:400 11px/1 var(--mono);color:var(--muted)}
 
 /* ---- prose blocks ---- */
 .steps ol{padding-left:18px;font:400 13px/1.9 var(--sans);color:var(--muted)}
@@ -135,6 +150,14 @@ details div{font-size:13px;line-height:1.8;color:var(--muted);padding-top:8px}
 .related li a{display:inline-block;padding:9px 14px;border-radius:999px;background:var(--card);border:.5px solid var(--line);color:var(--muted);font-size:13px;transition:border-color var(--ease),color var(--ease)}
 .related li a:hover{border-color:var(--accent);color:var(--accent)}
 .disclaimer{font:400 12px/1.7 var(--sans);color:var(--muted);border-top:.5px solid var(--line);padding-top:18px;margin-top:36px}
+
+/* ---- home: kicker + 기준 숫자 ---- */
+.kicker{margin:28px 0 14px;font:600 11px/1 var(--mono);letter-spacing:1.5px;color:var(--muted)}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;list-style:none;padding:0;margin:0 0 20px}
+.stats li{display:flex;flex-direction:column;gap:8px;background:var(--card);border:.5px solid var(--line);border-radius:12px;padding:18px 20px}
+.stats span{font:600 11px/1 var(--mono);letter-spacing:1.5px;color:var(--muted)}
+.stats b{font:300 30px/1 var(--mono);letter-spacing:-1px;color:var(--fg)}
+.stats li:last-child b{font-size:20px;letter-spacing:0}
 
 /* ---- tool grid (home) ---- */
 .tools{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:12px;list-style:none;padding:0;margin:0 0 20px}
@@ -149,6 +172,18 @@ footer a{color:var(--muted)}
 footer a:hover{color:var(--accent)}
 footer p{margin:0;font-family:var(--mono);font-size:11px;letter-spacing:1px}
 
+/* ---- PWA 화면 (구조는 pwa.css, 여기서는 색과 활자만) ---- */
+.pwa-offline{background:var(--panel);border-bottom:.5px solid var(--line);
+  font:400 13px/1.4 var(--sans);color:var(--fg)}
+.pwa-install{background:var(--panel);border-top:.5px solid var(--line);box-shadow:0 -12px 32px rgba(0,0,0,.4)}
+.pwa-install-mark{border:.5px solid var(--accent);border-radius:8px;font:400 22px/1 var(--mono);color:var(--accent)}
+.pwa-install-text strong{font:500 15px/1.4 var(--sans);color:var(--fg)}
+.pwa-install-text span{font:400 13px/1.6 var(--sans);color:var(--muted)}
+.pwa-tabs{background:var(--panel);border-top:.5px solid var(--line)}
+.pwa-tabs a{border-bottom:3px solid transparent;color:var(--muted);font:400 11px/1 var(--sans)}
+.pwa-tabs a span:first-child{font:400 17px/1 var(--mono)}
+.pwa-tabs a[aria-current]{border-bottom-color:var(--accent);color:var(--accent)}
+
 /* ---- responsive: 사이드바를 상단 스크롤 바로 ---- */
 @media (max-width:860px){
   .shell{flex-direction:column}
@@ -162,4 +197,18 @@ footer p{margin:0;font-family:var(--mono);font-size:11px;letter-spacing:1px}
   .topbar{padding:12px 16px}
   .content{padding:24px 16px 56px}
   h1{font-size:26px}
+}
+/* 휴대폰 */
+@media (max-width:560px){
+  .stats{grid-template-columns:1fr}
+  .stats li{padding:14px 16px}
+  .stats b{font-size:26px}
+  th,td{padding:10px 6px;font-size:12px}
+  th:first-child,td:first-child{font-size:12px}
+  .tbar{display:none}            /* 좁은 화면에서는 % 만 남깁니다 */
+  td.rate b{width:auto;font-size:12px}
+  .stepper button{width:46px;height:46px}
+  .stepper input{height:46px;font-size:26px}
+  .result .big{letter-spacing:-1px}
+  .result,.card{padding:18px}
 }

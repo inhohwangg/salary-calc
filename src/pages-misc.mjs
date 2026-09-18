@@ -1,4 +1,12 @@
-export function miscPages(tableRowsHtml) {
+export function miscPages(tableRowsHtml, R) {
+  // 기준 숫자는 전부 rates.js 에서 읽습니다. 매년 그 파일만 고치면 홈도 따라갑니다.
+  const pct = n => (n * 100).toFixed(2).replace(/\.?0+$/, '');
+  const statsHtml = `<ul class="stats">
+  <li><span>최저임금 시급</span><b>${R.minWage.hourly.toLocaleString('ko-KR')}</b></li>
+  <li><span>월 환산 · ${R.monthlyHours}시간</span><b>${R.minWage.monthly209.toLocaleString('ko-KR')}</b></li>
+  <li><span>국민연금 기준소득 상한</span><b>${R.pension.capMonthly.toLocaleString('ko-KR')}</b></li>
+  <li><span>국민연금 · 건강 · 고용</span><b>${pct(R.pension.total)} / ${pct(R.health.total)} / ${pct(R.employment.employee * 2)}%</b></li>
+</ul>`;
   return [
 {
   path: '/',
@@ -6,7 +14,10 @@ export function miscPages(tableRowsHtml) {
   desc: '2026년 요율 기준 연봉 실수령액, 4대보험, 퇴직금, 주휴수당, 연차수당 계산기를 한곳에 모았습니다.',
   h1: '2026년 급여 계산기 모음',
   intro: '연봉, 4대보험, 퇴직금을 2026년에 바뀐 요율로 계산합니다. 계산 과정까지 함께 보여줍니다.',
-  body: `<ul class="tools">
+  body: `<div class="kicker">${R.year}년 기준 숫자</div>
+${statsHtml}
+<div class="kicker">계산기 일람</div>
+<ul class="tools">
   <li><a href="/salary/"><strong>연봉 실수령액 계산기</strong><span>세전 연봉에서 세금과 보험료를 뺀 월 실수령액</span></a></li>
   <li><a href="/insurance/"><strong>4대보험 계산기</strong><span>근로자와 사업주가 각각 내는 금액</span></a></li>
   <li><a href="/severance/"><strong>퇴직금 계산기</strong><span>평균임금 기준 예상 퇴직금</span></a></li>
@@ -33,10 +44,10 @@ export function miscPages(tableRowsHtml) {
   h1: '2026 연봉 실수령액 표',
   intro: '비과세 월 20만 원, 공제대상 가족 1명(본인) 기준입니다. 부양가족이 있으면 실수령액은 조금 더 올라갑니다.',
   body: `<div class="card"><table>
-<thead><tr><th>연봉</th><th>월 세전</th><th>4대보험</th><th>소득세+지방세</th><th>월 실수령액</th></tr></thead>
+<thead><tr><th>연봉</th><th>월 실수령</th><th>월 공제</th><th>공제율</th></tr></thead>
 <tbody>${tableRowsHtml}</tbody></table></div>`,
   article: `<h2>표를 읽는 법</h2>
-<p>월 세전은 연봉을 12로 나눈 금액입니다. 4대보험은 국민연금 4.75%, 건강보험 3.595%, 장기요양 건강보험료의 13.14%, 고용보험 0.9%를 합한 근로자 부담분입니다. 소득세는 연말정산 방식 추정치이며 지방소득세는 소득세의 10%입니다.</p>
+<p>월 실수령은 연봉을 12로 나눈 세전 급여에서 월 공제를 뺀 금액입니다. 월 공제는 4대보험 근로자 부담분(국민연금 4.75%, 건강보험 3.595%, 장기요양 건강보험료의 13.14%, 고용보험 0.9%)에 소득세와 지방소득세를 더한 값입니다. 소득세는 연말정산 방식 추정치이며 지방소득세는 소득세의 10%입니다. 공제율은 세전 급여에서 월 공제가 차지하는 비율이고, 막대는 그 비율을 그린 것입니다. 항목별 금액은 <a href="/salary/">연봉 실수령액 계산기</a>에서 볼 수 있습니다.</p>
 <p>연봉 8,000만 원을 넘어가면 국민연금 기준소득월액 상한(637만 원) 때문에 국민연금 부담이 더 이상 늘지 않습니다. 그래서 고연봉 구간에서는 4대보험 증가폭이 완만해지고 소득세 비중이 커집니다.</p>
 <h2>내 조건으로 정확히 보려면</h2>
 <p>부양가족 수와 비과세액에 따라 결과가 달라집니다. <a href="/salary/">연봉 실수령액 계산기</a>에서 본인 조건을 넣어 확인하세요.</p>`,

@@ -1,0 +1,25 @@
+{
+  "name": "급여계산 모음",
+  "short_name": "급여계산",
+  "description": "2026년 요율 기준 연봉 실수령액, 4대보험, 퇴직금, 주휴수당 계산기. 설치 후 오프라인에서도 동작합니다.",
+  "lang": "ko",
+  "dir": "ltr",
+  "start_url": "/?src=pwa",
+  "scope": "/",
+  "id": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#f3f2f2",
+  "theme_color": "#f3f2f2",
+  "categories": ["finance", "productivity", "utilities"],
+  "icons": [
+    { "src": "/icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" },
+    { "src": "/icon-maskable.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "maskable" }
+  ],
+  "shortcuts": [
+    { "name": "연봉 실수령액", "short_name": "실수령액", "url": "/salary/", "icons": [{ "src": "/icon.svg", "sizes": "any", "type": "image/svg+xml" }] },
+    { "name": "4대보험", "short_name": "4대보험", "url": "/insurance/", "icons": [{ "src": "/icon.svg", "sizes": "any", "type": "image/svg+xml" }] },
+    { "name": "시급·월급 환산", "short_name": "환산", "url": "/wage-converter/", "icons": [{ "src": "/icon.svg", "sizes": "any", "type": "image/svg+xml" }] },
+    { "name": "2026 실수령액 표", "short_name": "일람", "url": "/table/salary-2026/", "icons": [{ "src": "/icon.svg", "sizes": "any", "type": "image/svg+xml" }] }
+  ]
+}

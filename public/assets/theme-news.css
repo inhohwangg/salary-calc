@@ -83,6 +83,17 @@ input[type=number],input[type=text],input[type=date],select{width:100%;padding:6
 input:focus,select:focus{border-bottom-color:var(--accent);box-shadow:0 1px 0 var(--accent)}
 input[inputmode=numeric],input[inputmode=decimal],input[type=number]{text-align:right}
 .field--lead input{padding:6px 0 8px;font-size:32px;letter-spacing:-1px}
+/* 단계 번호 — 마크업이 아니라 카운터로 매깁니다 */
+.card{counter-reset:step}
+.field.step>label::before{counter-increment:step;content:counter(step);
+  display:inline-block;width:16px;font:400 13px/1 var(--serif);font-variant-numeric:tabular-nums;
+  color:var(--n500);letter-spacing:0;text-transform:none}
+.stepper{display:flex;align-items:baseline;gap:16px;padding:6px 0 8px;border-bottom:1px solid var(--ink)}
+.stepper button{padding:0;background:none;border:0;border-radius:0;
+  font:400 22px/1 var(--serif);color:var(--n600);cursor:pointer}
+.stepper button:hover{color:var(--accent-700);opacity:1}
+.stepper input{flex:1;min-width:0;padding:0;border:0;font-size:32px;letter-spacing:-1px}
+.stepper input:focus{border:0;box-shadow:none}
 .row{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:26px}
 .row>*{flex:none}
 
@@ -151,6 +162,13 @@ tr.tot td:first-child{font-size:16px;color:var(--ink)}
 tr.on td{color:var(--accent-700)}
 tr.on td.num{font-size:22px}
 td.num{font-variant-numeric:tabular-nums}
+/* 표 셀은 flex 로 만들지 않습니다 — 셀 상자를 깨지 않도록 인라인으로 둡니다 */
+td.rate{text-align:right;white-space:nowrap}
+.tbar{display:inline-block;vertical-align:middle;width:64px;height:5px;margin-right:10px;
+  background:var(--n200);overflow:hidden}
+.tbar i{display:block;height:100%;background:var(--accent)}
+td.rate b{display:inline-block;width:46px;text-align:right;font:400 13px/1 var(--serif);
+  font-variant-numeric:tabular-nums;color:var(--n700)}
 
 /* ---- 본문 블록 ---- */
 .steps ol{padding-left:20px;font:400 14px/2 var(--kr);color:var(--n800)}
@@ -166,6 +184,16 @@ details div{padding-top:8px;font:400 14px/1.9 var(--kr);color:var(--n700);text-a
 .related li a:hover{color:var(--accent-700);border-bottom:1px solid var(--accent)}
 .disclaimer{margin-top:56px;padding-top:16px;border-top:1px solid var(--ink);
   font:400 13px/1.8 var(--kr);color:var(--n700)}
+
+/* ---- 홈: 소제목 + 기준 숫자 ---- */
+.kicker{margin:34px 0 12px;font:400 11px/1 var(--serif);letter-spacing:1.8px;
+  text-transform:uppercase;color:var(--n700)}
+.stats{list-style:none;padding:0;margin:0 0 20px;border-top:2px solid var(--ink)}
+.stats li{display:flex;align-items:baseline;justify-content:space-between;gap:20px;
+  padding:14px 0;border-bottom:1px solid var(--divider)}
+.stats span{font:400 15px/1.4 var(--kr);color:var(--n800)}
+.stats b{font:400 28px/1 var(--serif);font-variant-numeric:tabular-nums;letter-spacing:-.5px;color:var(--ink)}
+.stats li:last-child b{font-size:20px;letter-spacing:0}
 
 /* ---- 계산기 일람 ---- */
 .tools{counter-reset:t;display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
@@ -185,6 +213,23 @@ footer a{color:var(--n700)}
 footer a:hover{color:var(--accent-700)}
 footer p{margin:0;font-family:var(--serif);font-size:12px}
 
+/* ---- PWA 화면 (구조는 pwa.css, 여기서는 색과 활자만) ---- */
+.pwa-offline{background:var(--n200);border-bottom:1px solid var(--ink);
+  font:400 13px/1.4 var(--kr);color:var(--n800)}
+.pwa-install{background:var(--bg);border-top:2px solid var(--ink)}
+.pwa-install-mark{border:1px solid var(--ink);font:400 22px/1 var(--serif);color:var(--ink)}
+.pwa-install-text strong{font:500 15px/1.4 var(--kr);color:var(--ink)}
+.pwa-install-text span{font:400 13px/1.6 var(--kr);color:var(--n700)}
+.pwa-install-actions button{padding:13px 0;border:0;border-radius:0;
+  background:var(--accent);color:var(--bg);font:500 15px/1 var(--kr)}
+.pwa-install-actions button.later{padding:13px 20px;background:none;
+  border:1px solid var(--n400);color:var(--n700);font-weight:400}
+button.ghost{background:none;border:1px solid var(--n400);border-radius:0;color:var(--n700);font-weight:400}
+.pwa-tabs{background:var(--bg);border-top:2px solid var(--ink)}
+.pwa-tabs a{border-bottom:3px solid transparent;color:var(--n600);font:400 11px/1 var(--kr)}
+.pwa-tabs a span:first-child{font:400 17px/1 var(--serif)}
+.pwa-tabs a[aria-current]{border-bottom-color:var(--accent);color:var(--accent-700)}
+
 @media (max-width:860px){
   .shell{padding:0 16px 56px}
   .side{gap:14px}
@@ -194,4 +239,16 @@ footer p{margin:0;font-family:var(--serif);font-size:12px}
   .side nav ol::-webkit-scrollbar{display:none}
   .side nav a{white-space:nowrap}
   .topbar{padding-top:24px}
+}
+/* 휴대폰 */
+@media (max-width:560px){
+  .stats b{font-size:22px}
+  .stats span{font-size:14px}
+  th,td{padding:11px 0;font-size:14px}
+  th:first-child,td:first-child{font-size:13px}
+  .tbar{display:none}            /* 좁은 화면에서는 % 만 남깁니다 */
+  td.rate b{width:auto;font-size:13px}
+  .field--lead input,.stepper input{font-size:26px}
+  .intro,main p:not(.intro):not(.disclaimer){text-align:left}
+  h1{font-size:26px}
 }

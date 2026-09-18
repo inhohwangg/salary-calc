@@ -55,7 +55,7 @@ export function layout(p) {
 <title>${p.title}</title>
 <meta name="description" content="${p.desc}">
 <link rel="canonical" href="${url}">
-<meta name="theme-color" content="#0A0F1E">
+<meta id="themeColor" name="theme-color" content="#0A0F1E">
 <meta property="og:type" content="website">
 <meta property="og:title" content="${p.title}">
 <meta property="og:description" content="${p.desc}">
@@ -64,13 +64,20 @@ export function layout(p) {
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&family=Noto+Serif+KR:wght@400;500;600&family=Roboto+Mono:wght@400;500;600&family=Source+Serif+4:wght@400;600&display=swap">
+<link rel="manifest" href="/manifest.webmanifest">
+<link rel="icon" href="/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/icon.svg">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="급여계산">
 <link id="theme" rel="stylesheet" href="/assets/theme-dark.css">
+<link rel="stylesheet" href="/assets/pwa.css">
 <script>/* 저장된 테마를 그리기 전에 적용 — 깜빡임 방지 */
-(function(){try{var t=localStorage.getItem('theme');if(t==='news'||t==='dark'){document.documentElement.setAttribute('data-theme',t);document.getElementById('theme').href='/assets/theme-'+t+'.css';}}catch(e){}})();</script>
+(function(){try{var t=localStorage.getItem('theme');if(t==='news'||t==='dark'){document.documentElement.setAttribute('data-theme',t);document.getElementById('theme').href='/assets/theme-'+t+'.css';document.getElementById('themeColor').content=t==='news'?'#f3f2f2':'#0A0F1E';}}catch(e){}})();</script>
 ${SITE.adsenseClient ? `<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${SITE.adsenseClient}" crossorigin="anonymous"></script>` : ''}
 ${faqLd}
 </head>
 <body>
+<div class="pwa-offline" role="status">오프라인 · 저장된 ${SITE.rates ? SITE.rates.year : ''} 요율로 계산 중</div>
 <div class="shell">
 <aside class="side">
   <a class="brand" href="/"><span class="mark">₩</span><span class="bt"><b>급여계산</b><i>PAYROLL ${SITE.rates ? SITE.rates.year : ''}</i></span></a>
@@ -105,9 +112,31 @@ ${related ? `<section class="related"><h2>함께 보는 계산기</h2><ul>${rela
 </div>
 </main>
 </div>
+
+<nav class="pwa-tabs" aria-label="계산기 탭">
+  ${[['/salary/', '₩', '실수령액'], ['/insurance/', '4', '4대보험'],
+     ['/wage-converter/', '시', '환산'], ['/table/salary-2026/', '표', '일람']]
+    .map(t => `<a href="${t[0]}"${p.path === t[0] ? ' aria-current="page"' : ''}><span aria-hidden="true">${t[1]}</span><span>${t[2]}</span></a>`).join('')}
+</nav>
+
+<div class="pwa-install" role="dialog" aria-labelledby="pwaTitle">
+  <div class="pwa-install-head">
+    <div class="pwa-install-mark" aria-hidden="true">₩</div>
+    <div class="pwa-install-text">
+      <strong id="pwaTitle">홈 화면에 추가</strong>
+      <span>주소창 없이 열리고 오프라인에서도 계산됩니다.</span>
+    </div>
+  </div>
+  <div class="pwa-install-actions">
+    <button type="button" id="pwaAdd">추가</button>
+    <button type="button" id="pwaLater" class="ghost later">나중에</button>
+  </div>
+</div>
+
 <script src="/assets/rates.js"></script>
 <script src="/assets/payroll.js"></script>
 <script src="/assets/site.js"></script>
+<script src="/assets/pwa.js" defer></script>
 ${p.script ? `<script>${p.script}</script>` : ''}
 </body>
 </html>`;

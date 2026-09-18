@@ -6,7 +6,7 @@
 <title>급여계산 모음 | 2026년 실수령액·4대보험·퇴직금 계산기</title>
 <meta name="description" content="2026년 요율 기준 연봉 실수령액, 4대보험, 퇴직금, 주휴수당, 연차수당 계산기를 한곳에 모았습니다.">
 <link rel="canonical" href="https://your-domain.com/">
-<meta name="theme-color" content="#0A0F1E">
+<meta id="themeColor" name="theme-color" content="#0A0F1E">
 <meta property="og:type" content="website">
 <meta property="og:title" content="급여계산 모음 | 2026년 실수령액·4대보험·퇴직금 계산기">
 <meta property="og:description" content="2026년 요율 기준 연봉 실수령액, 4대보험, 퇴직금, 주휴수당, 연차수당 계산기를 한곳에 모았습니다.">
@@ -15,13 +15,20 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&family=Noto+Serif+KR:wght@400;500;600&family=Roboto+Mono:wght@400;500;600&family=Source+Serif+4:wght@400;600&display=swap">
+<link rel="manifest" href="/manifest.webmanifest">
+<link rel="icon" href="/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/icon.svg">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="급여계산">
 <link id="theme" rel="stylesheet" href="/assets/theme-dark.css">
+<link rel="stylesheet" href="/assets/pwa.css">
 <script>/* 저장된 테마를 그리기 전에 적용 — 깜빡임 방지 */
-(function(){try{var t=localStorage.getItem('theme');if(t==='news'||t==='dark'){document.documentElement.setAttribute('data-theme',t);document.getElementById('theme').href='/assets/theme-'+t+'.css';}}catch(e){}})();</script>
+(function(){try{var t=localStorage.getItem('theme');if(t==='news'||t==='dark'){document.documentElement.setAttribute('data-theme',t);document.getElementById('theme').href='/assets/theme-'+t+'.css';document.getElementById('themeColor').content=t==='news'?'#f3f2f2':'#0A0F1E';}}catch(e){}})();</script>
 
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"계산 결과가 회사 명세서와 다릅니다.","acceptedAnswer":{"@type":"Answer","text":"회사는 국세청 간이세액표로 원천징수하므로 연말정산 기준 추정치인 이 계산기와 차이가 납니다. 차액은 연말정산에서 정산됩니다."}},{"@type":"Question","name":"입력한 정보가 저장되나요?","acceptedAnswer":{"@type":"Answer","text":"저장되지 않습니다. 모든 계산은 브라우저에서 실행되며 서버로 전송되는 데이터가 없습니다."}},{"@type":"Question","name":"요율은 언제 갱신되나요?","acceptedAnswer":{"@type":"Answer","text":"매년 1월 요율 고시와 7월 국민연금 기준소득월액 변경에 맞춰 갱신합니다."}}]}</script>
 </head>
 <body>
+<div class="pwa-offline" role="status">오프라인 · 저장된 2026 요율로 계산 중</div>
 <div class="shell">
 <aside class="side">
   <a class="brand" href="/"><span class="mark">₩</span><span class="bt"><b>급여계산</b><i>PAYROLL 2026</i></span></a>
@@ -41,6 +48,14 @@
 <h1>2026년 급여 계산기 모음</h1>
 <p class="intro">연봉, 4대보험, 퇴직금을 2026년에 바뀐 요율로 계산합니다. 계산 과정까지 함께 보여줍니다.</p>
 <!-- 광고 자리 (top): 애드센스 승인 후 layout.mjs의 adsenseClient를 채우면 자동 노출 -->
+<div class="kicker">2026년 기준 숫자</div>
+<ul class="stats">
+  <li><span>최저임금 시급</span><b>10,320</b></li>
+  <li><span>월 환산 · 209시간</span><b>2,156,880</b></li>
+  <li><span>국민연금 기준소득 상한</span><b>6,370,000</b></li>
+  <li><span>국민연금 · 건강 · 고용</span><b>9.5 / 7.19 / 1.8%</b></li>
+</ul>
+<div class="kicker">계산기 일람</div>
 <ul class="tools">
   <li><a href="/salary/"><strong>연봉 실수령액 계산기</strong><span>세전 연봉에서 세금과 보험료를 뺀 월 실수령액</span></a></li>
   <li><a href="/insurance/"><strong>4대보험 계산기</strong><span>근로자와 사업주가 각각 내는 금액</span></a></li>
@@ -67,9 +82,29 @@
 </div>
 </main>
 </div>
+
+<nav class="pwa-tabs" aria-label="계산기 탭">
+  <a href="/salary/"><span aria-hidden="true">₩</span><span>실수령액</span></a><a href="/insurance/"><span aria-hidden="true">4</span><span>4대보험</span></a><a href="/wage-converter/"><span aria-hidden="true">시</span><span>환산</span></a><a href="/table/salary-2026/"><span aria-hidden="true">표</span><span>일람</span></a>
+</nav>
+
+<div class="pwa-install" role="dialog" aria-labelledby="pwaTitle">
+  <div class="pwa-install-head">
+    <div class="pwa-install-mark" aria-hidden="true">₩</div>
+    <div class="pwa-install-text">
+      <strong id="pwaTitle">홈 화면에 추가</strong>
+      <span>주소창 없이 열리고 오프라인에서도 계산됩니다.</span>
+    </div>
+  </div>
+  <div class="pwa-install-actions">
+    <button type="button" id="pwaAdd">추가</button>
+    <button type="button" id="pwaLater" class="ghost later">나중에</button>
+  </div>
+</div>
+
 <script src="/assets/rates.js"></script>
 <script src="/assets/payroll.js"></script>
 <script src="/assets/site.js"></script>
+<script src="/assets/pwa.js" defer></script>
 
 </body>
 </html>
