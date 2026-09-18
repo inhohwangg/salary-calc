@@ -1,26 +1,43 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ko" data-theme="dark">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>문의 | 급여계산 모음</title>
 <meta name="description" content="계산 오류 제보, 계산기 추가 요청, 제휴 문의를 받습니다.">
 <link rel="canonical" href="https://your-domain.com/contact/">
+<meta name="theme-color" content="#0A0F1E">
 <meta property="og:type" content="website">
 <meta property="og:title" content="문의 | 급여계산 모음">
 <meta property="og:description" content="계산 오류 제보, 계산기 추가 요청, 제휴 문의를 받습니다.">
 <meta property="og:url" content="https://your-domain.com/contact/">
 <meta property="og:site_name" content="급여계산 모음">
-<link rel="stylesheet" href="/assets/style.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&family=Noto+Serif+KR:wght@400;500;600&family=Roboto+Mono:wght@400;500;600&family=Source+Serif+4:wght@400;600&display=swap">
+<link id="theme" rel="stylesheet" href="/assets/theme-dark.css">
+<script>/* 저장된 테마를 그리기 전에 적용 — 깜빡임 방지 */
+(function(){try{var t=localStorage.getItem('theme');if(t==='news'||t==='dark'){document.documentElement.setAttribute('data-theme',t);document.getElementById('theme').href='/assets/theme-'+t+'.css';}}catch(e){}})();</script>
 
 
 </head>
 <body>
-<header class="hd">
-  <a class="logo" href="/">급여계산 모음</a>
-  <nav><ul><li><a href="/salary/">연봉 실수령액</a></li><li><a href="/insurance/">4대보험</a></li><li><a href="/severance/">퇴직금</a></li><li><a href="/holiday-allowance/">주휴수당</a></li><li><a href="/annual-leave/">연차수당</a></li><li><a href="/wage-converter/">시급·월급 환산</a></li></ul></nav>
+<div class="shell">
+<aside class="side">
+  <a class="brand" href="/"><span class="mark">₩</span><span class="bt"><b>급여계산</b><i>PAYROLL 2026</i></span></a>
+  <nav aria-label="계산기"><ol><li><a href="/">홈</a></li><li><a href="/salary/">연봉 실수령액</a></li><li><a href="/insurance/">4대보험</a></li><li><a href="/severance/">퇴직금</a></li><li><a href="/holiday-allowance/">주휴수당</a></li><li><a href="/annual-leave/">연차수당</a></li><li><a href="/wage-converter/">시급·월급 환산</a></li><li><a href="/table/salary-2026/">실수령액 표</a></li></ol></nav>
+  <div class="side-foot">
+    <b>요율 기준 2026-09-18</b>
+    <span>모든 계산은 브라우저에서 실행됩니다. 입력한 급여 정보는 서버로 전송되지 않습니다.</span>
+  </div>
+</aside>
+<main class="main">
+<header class="topbar">
+  <div class="code">문의</div>
+  <ul class="badges"><li><b>최저임금</b><span>10,320원</span></li><li><b>국민연금</b><span>9.5%</span></li><li><b>건강보험</b><span>7.19%</span></li></ul>
+  <button type="button" id="themeBtn" class="theme-btn" onclick="toggleTheme()">신문판</button>
 </header>
-<main>
+<div class="content">
 <h1>문의</h1>
 
 <!-- 광고 자리 (top): 애드센스 승인 후 layout.mjs의 adsenseClient를 채우면 자동 노출 -->
@@ -38,11 +55,13 @@
 
 
 <p class="disclaimer">이 계산기는 2026년 기준 법정 요율로 계산한 참고용 결과입니다. 실제 급여는 회사 규정, 비과세 항목, 부양가족 요건에 따라 달라질 수 있습니다.</p>
-</main>
 <footer>
   <ul><li><a href="/about/">사이트 소개</a></li><li><a href="/contact/">문의</a></li><li><a href="/privacy/">개인정보처리방침</a></li><li><a href="/terms/">이용약관</a></li></ul>
   <p>&copy; 2026 급여계산 모음</p>
 </footer>
+</div>
+</main>
+</div>
 <script src="/assets/rates.js"></script>
 <script src="/assets/payroll.js"></script>
 <script src="/assets/site.js"></script>

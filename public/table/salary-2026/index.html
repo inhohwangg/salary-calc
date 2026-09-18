@@ -1,26 +1,43 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ko" data-theme="dark">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>2026 연봉 실수령액 표 | 2400만~1억 구간별 월급</title>
 <meta name="description" content="2026년 4대보험과 소득세를 반영한 연봉 구간별 월 실수령액 표입니다. 100만 원 단위로 확인할 수 있습니다.">
 <link rel="canonical" href="https://your-domain.com/table/salary-2026/">
+<meta name="theme-color" content="#0A0F1E">
 <meta property="og:type" content="website">
 <meta property="og:title" content="2026 연봉 실수령액 표 | 2400만~1억 구간별 월급">
 <meta property="og:description" content="2026년 4대보험과 소득세를 반영한 연봉 구간별 월 실수령액 표입니다. 100만 원 단위로 확인할 수 있습니다.">
 <meta property="og:url" content="https://your-domain.com/table/salary-2026/">
 <meta property="og:site_name" content="급여계산 모음">
-<link rel="stylesheet" href="/assets/style.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&family=Noto+Serif+KR:wght@400;500;600&family=Roboto+Mono:wght@400;500;600&family=Source+Serif+4:wght@400;600&display=swap">
+<link id="theme" rel="stylesheet" href="/assets/theme-dark.css">
+<script>/* 저장된 테마를 그리기 전에 적용 — 깜빡임 방지 */
+(function(){try{var t=localStorage.getItem('theme');if(t==='news'||t==='dark'){document.documentElement.setAttribute('data-theme',t);document.getElementById('theme').href='/assets/theme-'+t+'.css';}}catch(e){}})();</script>
 
 
 </head>
 <body>
-<header class="hd">
-  <a class="logo" href="/">급여계산 모음</a>
-  <nav><ul><li><a href="/salary/">연봉 실수령액</a></li><li><a href="/insurance/">4대보험</a></li><li><a href="/severance/">퇴직금</a></li><li><a href="/holiday-allowance/">주휴수당</a></li><li><a href="/annual-leave/">연차수당</a></li><li><a href="/wage-converter/">시급·월급 환산</a></li></ul></nav>
+<div class="shell">
+<aside class="side">
+  <a class="brand" href="/"><span class="mark">₩</span><span class="bt"><b>급여계산</b><i>PAYROLL 2026</i></span></a>
+  <nav aria-label="계산기"><ol><li><a href="/">홈</a></li><li><a href="/salary/">연봉 실수령액</a></li><li><a href="/insurance/">4대보험</a></li><li><a href="/severance/">퇴직금</a></li><li><a href="/holiday-allowance/">주휴수당</a></li><li><a href="/annual-leave/">연차수당</a></li><li><a href="/wage-converter/">시급·월급 환산</a></li><li><a href="/table/salary-2026/" aria-current="page">실수령액 표</a></li></ol></nav>
+  <div class="side-foot">
+    <b>요율 기준 2026-09-18</b>
+    <span>모든 계산은 브라우저에서 실행됩니다. 입력한 급여 정보는 서버로 전송되지 않습니다.</span>
+  </div>
+</aside>
+<main class="main">
+<header class="topbar">
+  <div class="code">TABLE · 실수령액 표</div>
+  <ul class="badges"><li><b>최저임금</b><span>10,320원</span></li><li><b>국민연금</b><span>9.5%</span></li><li><b>건강보험</b><span>7.19%</span></li></ul>
+  <button type="button" id="themeBtn" class="theme-btn" onclick="toggleTheme()">신문판</button>
 </header>
-<main>
+<div class="content">
 <h1>2026 연봉 실수령액 표</h1>
 <p class="intro">비과세 월 20만 원, 공제대상 가족 1명(본인) 기준입니다. 부양가족이 있으면 실수령액은 조금 더 올라갑니다.</p>
 <!-- 광고 자리 (top): 애드센스 승인 후 layout.mjs의 adsenseClient를 채우면 자동 노출 -->
@@ -37,11 +54,13 @@
 
 <section class="related"><h2>함께 보는 계산기</h2><ul><li><a href="/salary/">연봉 실수령액 계산기</a></li><li><a href="/insurance/">4대보험 계산기</a></li></ul></section>
 <p class="disclaimer">이 계산기는 2026년 기준 법정 요율로 계산한 참고용 결과입니다. 실제 급여는 회사 규정, 비과세 항목, 부양가족 요건에 따라 달라질 수 있습니다.</p>
-</main>
 <footer>
   <ul><li><a href="/about/">사이트 소개</a></li><li><a href="/contact/">문의</a></li><li><a href="/privacy/">개인정보처리방침</a></li><li><a href="/terms/">이용약관</a></li></ul>
   <p>&copy; 2026 급여계산 모음</p>
 </footer>
+</div>
+</main>
+</div>
 <script src="/assets/rates.js"></script>
 <script src="/assets/payroll.js"></script>
 <script src="/assets/site.js"></script>

@@ -1,0 +1,197 @@
+/* 급여계산 — 신문판 (design: 급여계산 신문판.dc.html / broadsheet DS)
+   다크판과 같은 마크업을 쓰되 괘선·여백·세리프만으로 조판합니다. */
+:root{
+  --bg:#f3f2f2; --surface:#eae9e9; --ink:#201e1d;
+  --n100:#f8f4f4; --n200:#eae7e7; --n300:#d7d3d3; --n400:#bab6b6; --n500:#9b9797;
+  --n600:#7d7979; --n700:#605d5d; --n800:#444141; --n900:#2d2b2b;
+  --accent:#0088b0; --accent-600:#1186ac; --accent-700:#006786;
+  --alert:#aa0b56;
+  --divider:color-mix(in srgb,#201e1d 16%,transparent);
+  --serif:'Source Serif 4',Georgia,'Times New Roman',serif;
+  --kr:'Noto Serif KR',serif;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;background:var(--bg)}
+body{font-family:var(--serif);color:var(--ink);font-size:15px;line-height:1.55}
+a{color:var(--accent-700);text-decoration:none}
+a:hover{color:var(--accent-600)}
+::selection{background:color-mix(in srgb,#0088b0 22%,transparent)}
+:focus{outline:none}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+input,select,button{font-family:inherit;color:inherit}
+input[type=number]::-webkit-outer-spin-button,input[type=number]::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+
+/* ---- 지면 ---- */
+.shell{display:block;max-width:1180px;margin:0 auto;padding:0 40px 80px}
+
+/* 제호 — .side 가 사이드바가 아니라 마스트헤드가 됩니다 */
+.side{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:30px;
+  border-top:4px solid var(--ink);margin-top:28px;padding:18px 0 0;background:none}
+.brand{display:block;color:var(--ink);padding:0 0 14px}
+.brand:hover{color:var(--ink)}
+.mark{display:none}
+.bt{display:flex;flex-direction:column;gap:6px}
+.bt b{font:400 40px/1 var(--kr);letter-spacing:6px}
+.bt i{font:400 12px/1 var(--serif);letter-spacing:3px;text-transform:uppercase;color:var(--n700);font-style:normal}
+.side-foot{margin:0 0 14px;padding:0;border:0;display:flex;flex-direction:column;align-items:flex-end;gap:5px;
+  text-align:right;font:400 12px/1.5 var(--kr);color:var(--n700)}
+.side-foot b{font-weight:400}
+
+.side nav{flex-basis:100%;border-top:1px solid var(--ink);border-bottom:1px solid var(--ink)}
+.side nav ol{counter-reset:navno -1;list-style:none;margin:0;padding:0;
+  display:flex;flex-wrap:wrap;gap:0 26px}
+.side nav a{display:flex;align-items:baseline;gap:7px;padding:12px 0 11px;
+  font:400 15px/1.4 var(--kr);color:var(--n700);border-bottom:2px solid transparent;margin-bottom:-1px}
+.side nav a::before{counter-increment:navno;content:counter(navno,decimal-leading-zero);
+  font:400 10px/1 var(--serif);letter-spacing:1px;color:var(--n500);font-variant-numeric:tabular-nums}
+.side nav a:hover{color:var(--accent-700)}
+.side nav a[aria-current]{color:var(--ink);border-bottom-color:var(--accent);background:none}
+
+/* 기사 머리 — 스티키 툴바가 아니라 지면 상단 표식 */
+.main{display:block}
+.topbar{display:flex;flex-wrap:wrap;align-items:baseline;gap:10px 24px;position:static;
+  padding:34px 0 0;border:0;background:none}
+.code{font:400 11px/1 var(--serif);letter-spacing:1.8px;text-transform:uppercase;color:var(--n700)}
+.badges{display:flex;flex-wrap:wrap;gap:0;list-style:none;margin:0;padding:0}
+.badges li{display:flex;align-items:baseline;gap:6px;padding:0;background:none;border:0;
+  font:400 12px/1.5 var(--kr);color:var(--n700)}
+.badges li+li::before{content:'·';padding:0 8px;color:var(--n400)}
+.badges b{font-weight:400}
+.badges span{font-family:var(--serif);font-variant-numeric:tabular-nums;color:var(--ink)}
+.theme-btn{margin-left:auto;padding:0 0 1px;background:none;border:0;border-bottom:1px dotted var(--n400);
+  border-radius:0;font:400 12px/1.5 var(--kr);color:var(--n700);cursor:pointer}
+.theme-btn:hover{color:var(--accent-700);border-bottom:1px solid var(--accent);opacity:1}
+.content{padding:0;max-width:none;width:auto}
+
+/* ---- 활자 ---- */
+h1{margin:26px 0 6px;font:600 clamp(28px,3.4vw,38px)/1.3 var(--kr);letter-spacing:-.5px}
+h2{margin:2em 0 .5em;font:600 20px/1.35 var(--kr)}
+h3{margin:1.6em 0 .4em;font:600 17px/1.4 var(--kr)}
+p{margin:0 0 14px;text-wrap:pretty}
+.intro{font:400 15px/1.85 var(--kr);color:var(--n700);text-align:justify;margin-bottom:30px;max-width:720px}
+main p:not(.intro):not(.disclaimer){font:400 15px/1.9 var(--kr);color:var(--n800);text-align:justify}
+
+/* ---- 입력 — 상자 없이 밑줄만 ---- */
+.card{background:none;border:0;border-radius:0;padding:0;margin:0 0 34px}
+.field{margin:0 0 26px}
+.field label{display:block;margin-bottom:4px;font:400 11px/1 var(--serif);
+  letter-spacing:1.6px;text-transform:uppercase;color:var(--n700)}
+input[type=number],input[type=text],input[type=date],select{width:100%;padding:6px 0 8px;
+  background:transparent;border:0;border-bottom:1px solid var(--ink);border-radius:0;
+  font:400 20px/1.3 var(--serif);font-variant-numeric:tabular-nums;color:var(--ink);color-scheme:light}
+/* 포커스는 box-shadow 로 — border-width 를 바꾸면 1px 씩 밀립니다 */
+input:focus,select:focus{border-bottom-color:var(--accent);box-shadow:0 1px 0 var(--accent)}
+input[inputmode=numeric],input[inputmode=decimal],input[type=number]{text-align:right}
+.field--lead input{padding:6px 0 8px;font-size:32px;letter-spacing:-1px}
+.row{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:26px}
+.row>*{flex:none}
+
+/* 인용 숫자 — 알약이 아니라 점선 밑줄 텍스트 */
+.chips{display:flex;flex-wrap:wrap;gap:2px 14px;margin:8px 0 0;padding:0;list-style:none}
+.chips button{padding:0;background:none;border:0;border-bottom:1px dotted var(--n400);border-radius:0;
+  font:400 13px/1.6 var(--serif);font-variant-numeric:tabular-nums;color:var(--n700);cursor:pointer}
+.chips button:hover{color:var(--accent-700);border-bottom:1px solid var(--accent);opacity:1}
+
+/* 선택 행 — 왼쪽 괘선으로 현재 항목 표시 */
+.opts{list-style:none;margin:0;padding:0;border-top:1px solid var(--ink)}
+.opts input,.seg input{position:absolute;width:1px;height:1px;opacity:0;pointer-events:none}
+.opts label{display:flex;align-items:baseline;justify-content:space-between;gap:16px;
+  padding:13px 0 13px 12px;margin-left:-15px;border:0;border-left:3px solid transparent;
+  border-bottom:1px solid var(--divider);border-radius:0;background:none;color:var(--n700);cursor:pointer}
+.opts label span{font:400 15px/1.5 var(--kr)}
+.opts label b{font:400 14px/1.5 var(--serif);font-variant-numeric:tabular-nums;flex:none}
+.opts label:hover{border-left-color:var(--n300)}
+.opts label:has(:checked){background:none;border-left-color:var(--accent);color:var(--ink)}
+
+/* 단위 선택 — 밑줄 탭 */
+.seg{display:flex;flex-wrap:wrap;gap:0 24px;margin:0 0 26px;padding:0 0 10px;
+  background:none;border:0;border-bottom:1px solid var(--ink);border-radius:0}
+.seg li{flex:none;min-width:0}
+.seg label{display:block;padding:0 0 4px;margin-bottom:-12px;background:none;border-radius:0;
+  border-bottom:2px solid transparent;font:400 17px/1.4 var(--kr);color:var(--n600);cursor:pointer}
+.seg label:hover{color:var(--accent-700)}
+.seg label:has(:checked){background:none;color:var(--accent-700);border-bottom-color:var(--accent)}
+.opts label:has(:focus-visible),.seg label:has(:focus-visible){outline:2px solid var(--accent);outline-offset:2px}
+
+.slider{display:flex;align-items:baseline;justify-content:space-between;gap:16px}
+.slider label{margin:0}
+.slider b{font:400 24px/1 var(--serif);font-variant-numeric:tabular-nums;color:var(--ink)}
+input[type=range]{width:100%;margin:8px 0 4px;accent-color:var(--accent);background:transparent}
+
+/* ---- 결과 ---- */
+.result{background:none;border:0;border-radius:0;padding:0;margin:0 0 30px}
+.result>div:first-child{font:400 11px/1 var(--serif);letter-spacing:1.8px;text-transform:uppercase;color:var(--n700)}
+.result .big{margin:10px 0 0;font:400 clamp(46px,7vw,84px)/1 var(--serif);
+  font-variant-numeric:tabular-nums;letter-spacing:-3px;color:var(--accent-700)}
+.result .big small{font:400 17px/1 var(--kr);color:var(--n700);margin-left:8px;letter-spacing:0}
+.result .big.bad{font:400 26px/1.4 var(--kr);letter-spacing:0;color:var(--alert)}
+.note-inline{display:block;padding:14px 0 26px;font:400 15px/1.7 var(--kr);
+  font-variant-numeric:tabular-nums;color:var(--n700)}
+.bar{display:flex;height:10px;border-radius:0;overflow:hidden;background:var(--n200);margin:0}
+.bar i{display:block;height:100%}
+.s0{background:var(--accent)}
+.s1{background:var(--n800)}
+.s2{background:var(--n600)}
+.s3{background:var(--n400)}
+.s4{background:var(--n300)}
+.legend{display:flex;flex-wrap:wrap;gap:6px 22px;list-style:none;margin:0;padding:12px 0 30px;font-size:12px}
+.legend li{display:flex;align-items:center;gap:7px;color:var(--n700);font-family:var(--kr)}
+.legend em{display:block;width:9px;height:9px;border-radius:0;flex:none}
+.legend b{font:400 12px/1 var(--serif);font-variant-numeric:tabular-nums;color:var(--ink)}
+
+/* ---- 표 ---- */
+table{width:100%;border-collapse:collapse;margin:0;border-top:2px solid var(--ink)}
+th,td{padding:13px 0;text-align:right;border-bottom:1px solid var(--divider);
+  font:400 17px/1.2 var(--serif);font-variant-numeric:tabular-nums;color:var(--ink);white-space:nowrap;letter-spacing:-.3px}
+th{padding:10px 0;font:400 10px/1 var(--serif);letter-spacing:1.6px;text-transform:uppercase;
+  color:var(--n700);border-bottom:1px solid var(--ink)}
+th:first-child,td:first-child{text-align:left;font:400 15px/1.5 var(--kr);color:var(--n700);white-space:normal}
+tr.tot td{padding:16px 0;border-bottom:2px solid var(--ink);font-size:24px;color:var(--accent-700)}
+tr.tot td:first-child{font-size:16px;color:var(--ink)}
+tr.on td{color:var(--accent-700)}
+tr.on td.num{font-size:22px}
+td.num{font-variant-numeric:tabular-nums}
+
+/* ---- 본문 블록 ---- */
+.steps ol{padding-left:20px;font:400 14px/2 var(--kr);color:var(--n800)}
+.note,.note-inline{color:var(--n700)}
+.note{margin:14px 0 0;padding:0;background:none;border-radius:0;
+  font:400 14px/1.9 var(--kr);text-align:justify}
+details{border-bottom:1px solid var(--divider);padding:14px 0}
+summary{cursor:pointer;font:600 16px/1.5 var(--kr);color:var(--ink)}
+details div{padding-top:8px;font:400 14px/1.9 var(--kr);color:var(--n700);text-align:justify}
+.related ul{list-style:none;padding:0;display:flex;flex-wrap:wrap;gap:6px 24px}
+.related li a{display:inline-block;padding:0;background:none;border:0;border-bottom:1px dotted var(--n400);
+  border-radius:0;font:400 15px/1.8 var(--kr);color:var(--n700)}
+.related li a:hover{color:var(--accent-700);border-bottom:1px solid var(--accent)}
+.disclaimer{margin-top:56px;padding-top:16px;border-top:1px solid var(--ink);
+  font:400 13px/1.8 var(--kr);color:var(--n700)}
+
+/* ---- 계산기 일람 ---- */
+.tools{counter-reset:t;display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+  gap:0 48px;list-style:none;padding:0;margin:0;border-top:2px solid var(--ink)}
+.tools a{display:grid;grid-template-columns:auto 1fr;gap:5px 16px;height:100%;padding:20px 0;
+  background:none;border:0;border-bottom:1px solid var(--divider);border-radius:0}
+.tools a::before{counter-increment:t;content:counter(t,decimal-leading-zero);grid-row:1/3;
+  font:400 12px/1.7 var(--serif);font-variant-numeric:tabular-nums;color:var(--n500)}
+.tools a:hover{background:var(--n100)}
+.tools strong{grid-column:2;font:500 18px/1.4 var(--kr);color:var(--ink)}
+.tools span{grid-column:2;font:400 14px/1.7 var(--kr);color:var(--n700)}
+
+footer{display:flex;flex-wrap:wrap;gap:12px 40px;align-items:baseline;margin-top:0;padding-top:16px;
+  border-top:0;font:400 13px/1.8 var(--kr);color:var(--n700)}
+footer ul{list-style:none;display:flex;gap:20px;flex-wrap:wrap;padding:0;margin:0;flex:1;min-width:260px}
+footer a{color:var(--n700)}
+footer a:hover{color:var(--accent-700)}
+footer p{margin:0;font-family:var(--serif);font-size:12px}
+
+@media (max-width:860px){
+  .shell{padding:0 16px 56px}
+  .side{gap:14px}
+  .bt b{font-size:30px;letter-spacing:4px}
+  .side-foot{align-items:flex-start;text-align:left;margin-bottom:10px}
+  .side nav ol{flex-wrap:nowrap;overflow-x:auto;gap:0 20px;scrollbar-width:none}
+  .side nav ol::-webkit-scrollbar{display:none}
+  .side nav a{white-space:nowrap}
+  .topbar{padding-top:24px}
+}

@@ -6,15 +6,13 @@ export const calcPages3 = [
   h1: '연차수당 계산기',
   intro: '쓰지 못한 연차는 수당으로 받습니다. 통상임금 기준으로 계산합니다.',
   body: `<form class="card">
+  <div class="field field--lead"><label for="monthly">월 통상임금 (원)</label><input id="monthly" type="text" inputmode="numeric" data-comma value="3,000,000"></div>
   <div class="row">
-    <div class="field"><label for="monthly">월 통상임금 (원)</label><input id="monthly" type="text" inputmode="numeric" data-comma value="3,000,000"></div>
     <div class="field"><label for="daily">1일 소정근로시간</label><input id="daily" type="number" step="0.5" min="1" max="12" value="8"></div>
-  </div>
-  <div class="row">
     <div class="field"><label for="unused">미사용 연차 일수</label><input id="unused" type="number" min="0" max="30" value="5"></div>
-    <div class="field"><label for="years">근속 연수 (연차 발생일 확인용)</label><input id="years" type="number" min="0" max="40" value="3"></div>
+    <div class="field"><label for="years">근속 연수</label><input id="years" type="number" min="0" max="40" value="3"></div>
   </div>
-  <button type="button" onclick="run()">계산하기</button>
+  <p class="note">통상시급 = 월 통상임금 ÷ 209시간. 미사용 연차수당 청구권은 발생일로부터 3년입니다.</p>
 </form>
 <div class="result">
   <div>미사용 연차수당</div><div class="big" id="amt">-</div>
@@ -54,13 +52,18 @@ document.addEventListener('DOMContentLoaded',run);`
   h1: '시급·월급 환산 계산기',
   intro: '하나만 입력하면 나머지를 모두 환산합니다. 월급은 주 40시간 기준 209시간으로 계산합니다.',
   body: `<form class="card">
-  <div class="row">
-    <div class="field"><label for="amount">금액 (원)</label><input id="amount" type="text" inputmode="numeric" data-comma value="10,320"></div>
-    <div class="field"><label for="unit">입력 단위</label>
-      <select id="unit"><option value="hour">시급</option><option value="day">일급(8시간)</option><option value="week">주급(40시간)</option><option value="month">월급</option><option value="year">연봉</option></select>
-    </div>
+  <div class="field">
+    <label id="unitLabel">입력 단위</label>
+    <ul class="seg" role="radiogroup" aria-labelledby="unitLabel">
+      <li><label><input type="radio" name="unit" value="hour" checked>시급</label></li>
+      <li><label><input type="radio" name="unit" value="day">일급</label></li>
+      <li><label><input type="radio" name="unit" value="week">주급</label></li>
+      <li><label><input type="radio" name="unit" value="month">월급</label></li>
+      <li><label><input type="radio" name="unit" value="year">연봉</label></li>
+    </ul>
   </div>
-  <button type="button" onclick="run()">환산하기</button>
+  <div class="field field--lead"><label for="amount">금액 (원)</label><input id="amount" type="text" inputmode="numeric" data-comma value="10,320"></div>
+  <p class="note">209시간 = (주 40시간 + 주휴 8시간) × 365 ÷ 7 ÷ 12. 최저임금 위반 여부도 이 기준으로 판단합니다.</p>
 </form>
 <div class="result">
   <table><tbody id="rows"></tbody></table>
@@ -81,12 +84,13 @@ document.addEventListener('DOMContentLoaded',run);`
   ],
   related: ['/holiday-allowance/', '/salary/'],
   script: `function run(){
-  var v=numOf('amount'), u=document.getElementById('unit').value, H=209;
+  var v=numOf('amount'), u=pick('unit'), H=209;
   var hour;
   if(u==='hour')hour=v; else if(u==='day')hour=v/8; else if(u==='week')hour=v/40; else if(u==='month')hour=v/H; else hour=v/12/H;
   var month=hour*H;
-  var rows=[['시급',hour],['일급(8시간)',hour*8],['주급(40시간+주휴)',hour*48],['월급(209시간)',month],['연봉',month*12]];
-  document.getElementById('rows').innerHTML=rows.map(function(x){return '<tr><td>'+x[0]+'</td><td class="num">'+Payroll.won(x[1])+'원</td></tr>';}).join('');
+  var rows=[['시급',hour,'hour'],['일급 (8시간)',hour*8,'day'],['주급 (40시간 + 주휴)',hour*48,'week'],['월급 (209시간)',month,'month'],['연봉',month*12,'year']];
+  document.getElementById('rows').innerHTML=rows.map(function(x){
+    return '<tr'+(x[2]===u?' class="on"':'')+'><td>'+x[0]+'</td><td class="num">'+Payroll.won(x[1])+'원</td></tr>';}).join('');
 }
 document.addEventListener('DOMContentLoaded',run);`
 }

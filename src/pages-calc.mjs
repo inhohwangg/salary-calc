@@ -6,16 +6,27 @@ export const calcPages = [
   h1: '연봉 실수령액 계산기 (2026년 기준)',
   intro: '연봉을 넣으면 4대보험과 소득세를 뺀 월 실수령액을 계산합니다. 2026년에 오른 국민연금 9.5%, 건강보험 7.19%를 반영했습니다.',
   body: `<form class="card">
-  <div class="field"><label for="annual">연봉 (원)</label><input id="annual" type="text" inputmode="numeric" data-comma value="40,000,000"></div>
+  <div class="field field--lead"><label for="annual">연봉 (원)</label><input id="annual" type="text" inputmode="numeric" data-comma value="40,000,000">
+    <ul class="chips">
+      <li><button type="button" onclick="setAnnual(30000000)">3,000만</button></li>
+      <li><button type="button" onclick="setAnnual(40000000)">4,000만</button></li>
+      <li><button type="button" onclick="setAnnual(50000000)">5,000만</button></li>
+      <li><button type="button" onclick="setAnnual(60000000)">6,000만</button></li>
+      <li><button type="button" onclick="setAnnual(70000000)">7,000만</button></li>
+      <li><button type="button" onclick="setAnnual(100000000)">1억</button></li>
+    </ul>
+  </div>
   <div class="row">
     <div class="field"><label for="nontax">월 비과세액 (식대 등)</label><input id="nontax" type="text" inputmode="numeric" data-comma value="200,000"></div>
     <div class="field"><label for="family">공제대상 가족수 (본인 포함)</label><input id="family" type="number" min="1" max="10" value="1"></div>
   </div>
-  <button type="button" onclick="run()">계산하기</button>
 </form>
 <div class="result">
   <div>월 실수령액</div>
   <div class="big" id="net">-</div>
+  <div id="sub" class="note-inline">-</div>
+  <div class="bar" id="bar"></div>
+  <ul class="legend" id="legend"></ul>
   <table><thead><tr><th>항목</th><th>월 금액</th></tr></thead><tbody id="rows"></tbody></table>
 </div>`,
   steps: `<ol>
@@ -41,14 +52,39 @@ export const calcPages = [
     { q: '연봉에 퇴직금이 포함된 경우는요?', a: '퇴직금 포함 연봉이면 실제 급여는 연봉의 12/13 수준입니다. 그 금액을 연봉 칸에 넣어야 실수령액이 맞습니다.' }
   ],
   related: ['/insurance/', '/severance/', '/wage-converter/'],
-  script: `function run(){
+  script: `function setAnnual(v){
+  document.getElementById('annual').value=v.toLocaleString('ko-KR');
+  run();
+}
+function run(){
   var annual=numOf('annual'), nontax=numOf('nontax'), family=numOf('family')||1;
-  if(annual<=0){alert('연봉을 입력해 주세요.');return;}
+  if(annual<=0){
+    setBig('net','연봉을 입력해 주세요',true);
+    setText('sub','-');
+    document.getElementById('bar').innerHTML='';
+    document.getElementById('legend').innerHTML='';
+    document.getElementById('rows').innerHTML='';
+    return;
+  }
   var r=Payroll.netPay(annual,{nonTaxMonthly:nontax,family:family});
-  setText('net', Payroll.won(r.net)+'원');
+  setBig('net', Payroll.won(r.net)+'원', false);
+  var gross=Math.max(r.monthlyGross,1);
+  setText('sub','연 '+Payroll.won(r.net*12)+'원 · 공제율 '+(r.deduction/gross*100).toFixed(1)+'%');
+  // 색은 테마 CSS(.s0~.s4)가 정합니다. 여기서는 폭과 라벨만 정합니다.
+  var segs=[
+    ['실수령',r.net],
+    ['국민연금',r.insurance.pension],
+    ['건강·장기요양',r.insurance.health+r.insurance.ltc],
+    ['고용보험',r.insurance.employment],
+    ['소득세·지방세',r.incomeTax+r.localTax]
+  ];
+  document.getElementById('bar').innerHTML=segs.map(function(s,n){
+    return '<i class="s'+n+'" style="width:'+(s[1]/gross*100)+'%"></i>';}).join('');
+  document.getElementById('legend').innerHTML=segs.map(function(s,n){
+    return '<li><em class="s'+n+'"></em>'+s[0]+' <b>'+(s[1]/gross*100).toFixed(1)+'%</b></li>';}).join('');
   var rows=[['월 급여(세전)',r.monthlyGross],['국민연금',-r.insurance.pension],['건강보험',-r.insurance.health],['장기요양보험',-r.insurance.ltc],['고용보험',-r.insurance.employment],['소득세',-r.incomeTax],['지방소득세',-r.localTax],['공제 합계',-r.deduction],['월 실수령액',r.net]];
-  document.getElementById('rows').innerHTML=rows.map(function(x){
-    return '<tr><td>'+x[0]+'</td><td class="num">'+Payroll.won(x[1])+'원</td></tr>';}).join('');
+  document.getElementById('rows').innerHTML=rows.map(function(x,n){
+    return '<tr'+(n===rows.length-1?' class="tot"':'')+'><td>'+x[0]+'</td><td class="num">'+Payroll.won(x[1])+'원</td></tr>';}).join('');
 }
 document.addEventListener('DOMContentLoaded',run);`
 },
@@ -59,18 +95,28 @@ document.addEventListener('DOMContentLoaded',run);`
   h1: '4대보험 계산기 (2026년 요율)',
   intro: '월 급여를 넣으면 근로자와 사업주가 각각 내는 보험료를 계산합니다.',
   body: `<form class="card">
-  <div class="field"><label for="pay">월 급여 (과세 대상, 원)</label><input id="pay" type="text" inputmode="numeric" data-comma value="3,000,000"></div>
-  <div class="field"><label for="size">사업장 규모 (고용안정·직업능력개발 부담분)</label>
-    <select id="size">
-      <option value="0.0025">150인 미만 (0.25%)</option>
-      <option value="0.0045">150인 이상 우선지원 대상기업 (0.45%)</option>
-      <option value="0.0065">150인 이상 1,000인 미만 (0.65%)</option>
-      <option value="0.0085">1,000인 이상·국가지자체 (0.85%)</option>
-    </select></div>
-  <button type="button" onclick="run()">계산하기</button>
+  <div class="field field--lead"><label for="pay">월 급여 (과세 대상, 원)</label><input id="pay" type="text" inputmode="numeric" data-comma value="3,000,000">
+    <ul class="chips">
+      <li><button type="button" onclick="setPay(2156880)">최저임금</button></li>
+      <li><button type="button" onclick="setPay(2500000)">250만</button></li>
+      <li><button type="button" onclick="setPay(3000000)">300만</button></li>
+      <li><button type="button" onclick="setPay(4000000)">400만</button></li>
+      <li><button type="button" onclick="setPay(5000000)">500만</button></li>
+    </ul>
+  </div>
+  <div class="field">
+    <label id="sizeLabel">사업장 규모 (고용안정·직업능력개발 부담분)</label>
+    <ul class="opts" role="radiogroup" aria-labelledby="sizeLabel">
+      <li><label><input type="radio" name="size" value="0.0025" checked><span>150인 미만</span><b>0.25%</b></label></li>
+      <li><label><input type="radio" name="size" value="0.0045"><span>150인 이상 우선지원 대상기업</span><b>0.45%</b></label></li>
+      <li><label><input type="radio" name="size" value="0.0065"><span>150인 이상 1,000인 미만</span><b>0.65%</b></label></li>
+      <li><label><input type="radio" name="size" value="0.0085"><span>1,000인 이상 · 국가지자체</span><b>0.85%</b></label></li>
+    </ul>
+  </div>
 </form>
 <div class="result">
   <div>근로자 부담 합계</div><div class="big" id="emp">-</div>
+  <div id="sub" class="note-inline">-</div>
   <table><thead><tr><th>항목</th><th>근로자</th><th>사업주</th></tr></thead><tbody id="rows"></tbody></table>
 </div>`,
   steps: `<ol>
@@ -91,14 +137,19 @@ document.addEventListener('DOMContentLoaded',run);`
     { q: '건강보험료 정산이란 무엇인가요?', a: '전년도 보수총액을 기준으로 4월에 정산합니다. 급여가 오른 해에는 4월에 추가 납부가 발생할 수 있습니다.' }
   ],
   related: ['/salary/', '/wage-converter/'],
-  script: `function run(){
-  var pay=numOf('pay'); var extra=Number(document.getElementById('size').value);
+  script: `function setPay(v){
+  document.getElementById('pay').value=v.toLocaleString('ko-KR');
+  run();
+}
+function run(){
+  var pay=numOf('pay'); var extra=Number(pick('size'));
   var i=Payroll.insurance(pay);
   var empExtra=Payroll.floor10(pay*extra);
   var rows=[['국민연금',i.pension,i.pension],['건강보험',i.health,i.health],['장기요양보험',i.ltc,i.ltc],['고용보험(실업급여)',i.employment,i.employment],['고용안정·직업능력개발',0,empExtra],['합계',i.total,i.total+empExtra]];
   setText('emp',Payroll.won(i.total)+'원');
-  document.getElementById('rows').innerHTML=rows.map(function(x){
-    return '<tr><td>'+x[0]+'</td><td class="num">'+Payroll.won(x[1])+'원</td><td class="num">'+Payroll.won(x[2])+'원</td></tr>';}).join('');
+  setText('sub','사업주 부담 '+Payroll.won(i.total+empExtra)+'원');
+  document.getElementById('rows').innerHTML=rows.map(function(x,n){
+    return '<tr'+(n===rows.length-1?' class="tot"':'')+'><td>'+x[0]+'</td><td class="num">'+Payroll.won(x[1])+'원</td><td class="num">'+Payroll.won(x[2])+'원</td></tr>';}).join('');
 }
 document.addEventListener('DOMContentLoaded',run);`
 }

@@ -10,12 +10,12 @@ export const calcPages2 = [
     <div class="field"><label for="join">입사일</label><input id="join" type="date" value="2022-03-02"></div>
     <div class="field"><label for="leave">퇴사일 (마지막 근무일 다음 날)</label><input id="leave" type="date" value="2026-03-02"></div>
   </div>
-  <div class="field"><label for="m3">퇴직 전 3개월 임금 총액 (원)</label><input id="m3" type="text" inputmode="numeric" data-comma value="9,000,000"></div>
+  <div class="field field--lead"><label for="m3">퇴직 전 3개월 임금 총액 (원)</label><input id="m3" type="text" inputmode="numeric" data-comma value="9,000,000"></div>
   <div class="row">
     <div class="field"><label for="bonus">연간 상여금 (원)</label><input id="bonus" type="text" inputmode="numeric" data-comma value="0"></div>
     <div class="field"><label for="leavepay">연차수당 (직전 1년, 원)</label><input id="leavepay" type="text" inputmode="numeric" data-comma value="0"></div>
   </div>
-  <button type="button" onclick="run()">계산하기</button>
+  <p class="note">평균임금이 통상임금보다 적으면 통상임금으로 계산합니다. 1년 미만 근무자는 퇴직금 지급 대상이 아닙니다.</p>
 </form>
 <div class="result">
   <div>예상 퇴직금 (세전)</div><div class="big" id="pay">-</div>
@@ -43,12 +43,16 @@ export const calcPages2 = [
   related: ['/salary/', '/annual-leave/'],
   script: `function run(){
   var j=new Date(document.getElementById('join').value), l=new Date(document.getElementById('leave').value);
-  if(isNaN(j)||isNaN(l)||l<=j){alert('입사일과 퇴사일을 확인해 주세요.');return;}
+  if(isNaN(j)||isNaN(l)||l<=j){
+    setBig('pay','입사일과 퇴사일을 확인해 주세요',true);
+    document.getElementById('rows').innerHTML='';
+    return;
+  }
   var days=Math.round((l-j)/86400000);
   var d3=Math.round((l-new Date(l.getFullYear(),l.getMonth()-3,l.getDate()))/86400000);
   var base=numOf('m3')+numOf('bonus')*3/12+numOf('leavepay')*3/12;
   var avg=base/d3, pay=avg*30*(days/365);
-  setText('pay', days<365? '1년 미만 (지급 대상 아님)' : Payroll.won(pay)+'원');
+  setBig('pay', days<365? '1년 미만 · 지급 대상 아님' : Payroll.won(pay)+'원', days<365);
   var rows=[['재직일수',days+'일'],['평균임금 산정 기간',d3+'일'],['1일 평균임금',Payroll.won(avg)+'원'],['30일분 임금',Payroll.won(avg*30)+'원'],['근속 연수 환산',(days/365).toFixed(2)+'년']];
   document.getElementById('rows').innerHTML=rows.map(function(x){return '<tr><td>'+x[0]+'</td><td class="num">'+x[1]+'</td></tr>';}).join('');
 }
@@ -61,11 +65,19 @@ document.addEventListener('DOMContentLoaded',run);`
   h1: '주휴수당 계산기',
   intro: '주 15시간 이상 일하고 약속한 날에 모두 출근하면 하루치 임금을 더 받습니다. 그게 주휴수당입니다.',
   body: `<form class="card">
-  <div class="row">
-    <div class="field"><label for="wage">시급 (원)</label><input id="wage" type="text" inputmode="numeric" data-comma value="10,320"></div>
-    <div class="field"><label for="hours">주 소정근로시간</label><input id="hours" type="number" step="0.5" min="0" max="60" value="20"></div>
+  <div class="field field--lead"><label for="wage">시급 (원)</label><input id="wage" type="text" inputmode="numeric" data-comma value="10,320">
+    <ul class="chips"><li><button type="button" onclick="setWage(10320)">2026 최저임금 10,320</button></li></ul>
   </div>
-  <button type="button" onclick="run()">계산하기</button>
+  <div class="field">
+    <div class="slider"><label for="hours">주 소정근로시간</label><b id="hoursOut">20시간</b></div>
+    <input id="hours" type="range" step="0.5" min="0" max="60" value="20">
+    <ul class="chips">
+      <li><button type="button" onclick="setHours(15)">15시간</button></li>
+      <li><button type="button" onclick="setHours(20)">20시간</button></li>
+      <li><button type="button" onclick="setHours(30)">30시간</button></li>
+      <li><button type="button" onclick="setHours(40)">40시간</button></li>
+    </ul>
+  </div>
 </form>
 <div class="result">
   <div>주휴수당 (1주)</div><div class="big" id="weekly">-</div>
@@ -90,11 +102,14 @@ document.addEventListener('DOMContentLoaded',run);`
     { q: '주휴수당을 안 주면 어떻게 하나요?', a: '임금 체불에 해당합니다. 고용노동부 홈페이지나 관할 노동청에 진정을 넣을 수 있고, 3년 이내 청구가 가능합니다.' }
   ],
   related: ['/wage-converter/', '/annual-leave/'],
-  script: `function run(){
+  script: `function setWage(v){document.getElementById('wage').value=v.toLocaleString('ko-KR');run();}
+function setHours(v){document.getElementById('hours').value=v;run();}
+function run(){
   var w=numOf('wage'), h=numOf('hours');
   var wh = h<15?0:Math.min(h/40*8,8);
   var amt=wh*w;
-  setText('weekly', h<15? '없음 (주 15시간 미만)' : Payroll.won(amt)+'원');
+  setText('hoursOut', h+'시간');
+  setBig('weekly', h<15? '없음 · 주 15시간 미만' : Payroll.won(amt)+'원', h<15);
   var rows=[['주휴시간',wh.toFixed(1)+'시간'],['주급(근로분)',Payroll.won(h*w)+'원'],['주급(주휴 포함)',Payroll.won(h*w+amt)+'원'],['월 환산(4.345주)',Payroll.won((h*w+amt)*4.345)+'원']];
   document.getElementById('rows').innerHTML=rows.map(function(x){return '<tr><td>'+x[0]+'</td><td class="num">'+x[1]+'</td></tr>';}).join('');
 }

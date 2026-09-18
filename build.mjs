@@ -12,6 +12,7 @@ globalThis.window = g;
 eval(fs.readFileSync('public/assets/rates.js', 'utf8').replace(/window\./g, 'g.'));
 eval(fs.readFileSync('public/assets/payroll.js', 'utf8'));
 const P = g.Payroll;
+SITE.rates = g.RATES; // 헤더 요율 배지 / 사이드바 기준일
 
 let rows = '';
 for (let salary = 24000000; salary <= 120000000; salary += 1000000) {

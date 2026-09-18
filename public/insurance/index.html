@@ -1,42 +1,69 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ko" data-theme="dark">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>4대보험 계산기 2026 | 근로자·사업주 부담금</title>
 <meta name="description" content="2026년 요율로 국민연금, 건강보험, 장기요양보험, 고용보험의 근로자 부담과 사업주 부담을 각각 계산합니다.">
 <link rel="canonical" href="https://your-domain.com/insurance/">
+<meta name="theme-color" content="#0A0F1E">
 <meta property="og:type" content="website">
 <meta property="og:title" content="4대보험 계산기 2026 | 근로자·사업주 부담금">
 <meta property="og:description" content="2026년 요율로 국민연금, 건강보험, 장기요양보험, 고용보험의 근로자 부담과 사업주 부담을 각각 계산합니다.">
 <meta property="og:url" content="https://your-domain.com/insurance/">
 <meta property="og:site_name" content="급여계산 모음">
-<link rel="stylesheet" href="/assets/style.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&family=Noto+Serif+KR:wght@400;500;600&family=Roboto+Mono:wght@400;500;600&family=Source+Serif+4:wght@400;600&display=swap">
+<link id="theme" rel="stylesheet" href="/assets/theme-dark.css">
+<script>/* 저장된 테마를 그리기 전에 적용 — 깜빡임 방지 */
+(function(){try{var t=localStorage.getItem('theme');if(t==='news'||t==='dark'){document.documentElement.setAttribute('data-theme',t);document.getElementById('theme').href='/assets/theme-'+t+'.css';}}catch(e){}})();</script>
 
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"산재보험은 왜 빠져 있나요?","acceptedAnswer":{"@type":"Answer","text":"산재보험료율은 업종별로 0.7%에서 18%대까지 크게 다르고 전액 사업주가 부담합니다. 업종 요율은 근로복지공단에서 확인할 수 있습니다."}},{"@type":"Question","name":"아르바이트도 4대보험에 가입하나요?","acceptedAnswer":{"@type":"Answer","text":"월 60시간 이상 근무하면 원칙적으로 가입 대상입니다. 초단시간 근로자는 산재보험만 적용되는 경우가 많습니다."}},{"@type":"Question","name":"보험료는 어디서 떼나요?","acceptedAnswer":{"@type":"Answer","text":"비과세 항목을 제외한 과세 대상 급여를 기준으로 부과합니다. 식대 등 비과세는 부과 대상에서 빠집니다."}},{"@type":"Question","name":"건강보험료 정산이란 무엇인가요?","acceptedAnswer":{"@type":"Answer","text":"전년도 보수총액을 기준으로 4월에 정산합니다. 급여가 오른 해에는 4월에 추가 납부가 발생할 수 있습니다."}}]}</script>
 </head>
 <body>
-<header class="hd">
-  <a class="logo" href="/">급여계산 모음</a>
-  <nav><ul><li><a href="/salary/">연봉 실수령액</a></li><li><a href="/insurance/" aria-current="page">4대보험</a></li><li><a href="/severance/">퇴직금</a></li><li><a href="/holiday-allowance/">주휴수당</a></li><li><a href="/annual-leave/">연차수당</a></li><li><a href="/wage-converter/">시급·월급 환산</a></li></ul></nav>
+<div class="shell">
+<aside class="side">
+  <a class="brand" href="/"><span class="mark">₩</span><span class="bt"><b>급여계산</b><i>PAYROLL 2026</i></span></a>
+  <nav aria-label="계산기"><ol><li><a href="/">홈</a></li><li><a href="/salary/">연봉 실수령액</a></li><li><a href="/insurance/" aria-current="page">4대보험</a></li><li><a href="/severance/">퇴직금</a></li><li><a href="/holiday-allowance/">주휴수당</a></li><li><a href="/annual-leave/">연차수당</a></li><li><a href="/wage-converter/">시급·월급 환산</a></li><li><a href="/table/salary-2026/">실수령액 표</a></li></ol></nav>
+  <div class="side-foot">
+    <b>요율 기준 2026-09-18</b>
+    <span>모든 계산은 브라우저에서 실행됩니다. 입력한 급여 정보는 서버로 전송되지 않습니다.</span>
+  </div>
+</aside>
+<main class="main">
+<header class="topbar">
+  <div class="code">INSURANCE · 4대보험</div>
+  <ul class="badges"><li><b>최저임금</b><span>10,320원</span></li><li><b>국민연금</b><span>9.5%</span></li><li><b>건강보험</b><span>7.19%</span></li></ul>
+  <button type="button" id="themeBtn" class="theme-btn" onclick="toggleTheme()">신문판</button>
 </header>
-<main>
+<div class="content">
 <h1>4대보험 계산기 (2026년 요율)</h1>
 <p class="intro">월 급여를 넣으면 근로자와 사업주가 각각 내는 보험료를 계산합니다.</p>
 <!-- 광고 자리 (top): 애드센스 승인 후 layout.mjs의 adsenseClient를 채우면 자동 노출 -->
 <form class="card">
-  <div class="field"><label for="pay">월 급여 (과세 대상, 원)</label><input id="pay" type="text" inputmode="numeric" data-comma value="3,000,000"></div>
-  <div class="field"><label for="size">사업장 규모 (고용안정·직업능력개발 부담분)</label>
-    <select id="size">
-      <option value="0.0025">150인 미만 (0.25%)</option>
-      <option value="0.0045">150인 이상 우선지원 대상기업 (0.45%)</option>
-      <option value="0.0065">150인 이상 1,000인 미만 (0.65%)</option>
-      <option value="0.0085">1,000인 이상·국가지자체 (0.85%)</option>
-    </select></div>
-  <button type="button" onclick="run()">계산하기</button>
+  <div class="field field--lead"><label for="pay">월 급여 (과세 대상, 원)</label><input id="pay" type="text" inputmode="numeric" data-comma value="3,000,000">
+    <ul class="chips">
+      <li><button type="button" onclick="setPay(2156880)">최저임금</button></li>
+      <li><button type="button" onclick="setPay(2500000)">250만</button></li>
+      <li><button type="button" onclick="setPay(3000000)">300만</button></li>
+      <li><button type="button" onclick="setPay(4000000)">400만</button></li>
+      <li><button type="button" onclick="setPay(5000000)">500만</button></li>
+    </ul>
+  </div>
+  <div class="field">
+    <label id="sizeLabel">사업장 규모 (고용안정·직업능력개발 부담분)</label>
+    <ul class="opts" role="radiogroup" aria-labelledby="sizeLabel">
+      <li><label><input type="radio" name="size" value="0.0025" checked><span>150인 미만</span><b>0.25%</b></label></li>
+      <li><label><input type="radio" name="size" value="0.0045"><span>150인 이상 우선지원 대상기업</span><b>0.45%</b></label></li>
+      <li><label><input type="radio" name="size" value="0.0065"><span>150인 이상 1,000인 미만</span><b>0.65%</b></label></li>
+      <li><label><input type="radio" name="size" value="0.0085"><span>1,000인 이상 · 국가지자체</span><b>0.85%</b></label></li>
+    </ul>
+  </div>
 </form>
 <div class="result">
   <div>근로자 부담 합계</div><div class="big" id="emp">-</div>
+  <div id="sub" class="note-inline">-</div>
   <table><thead><tr><th>항목</th><th>근로자</th><th>사업주</th></tr></thead><tbody id="rows"></tbody></table>
 </div>
 <section class="steps"><h2>계산 과정</h2><ol>
@@ -54,22 +81,29 @@
 <section class="faq"><h2>자주 묻는 질문</h2><details><summary>산재보험은 왜 빠져 있나요?</summary><div>산재보험료율은 업종별로 0.7%에서 18%대까지 크게 다르고 전액 사업주가 부담합니다. 업종 요율은 근로복지공단에서 확인할 수 있습니다.</div></details><details><summary>아르바이트도 4대보험에 가입하나요?</summary><div>월 60시간 이상 근무하면 원칙적으로 가입 대상입니다. 초단시간 근로자는 산재보험만 적용되는 경우가 많습니다.</div></details><details><summary>보험료는 어디서 떼나요?</summary><div>비과세 항목을 제외한 과세 대상 급여를 기준으로 부과합니다. 식대 등 비과세는 부과 대상에서 빠집니다.</div></details><details><summary>건강보험료 정산이란 무엇인가요?</summary><div>전년도 보수총액을 기준으로 4월에 정산합니다. 급여가 오른 해에는 4월에 추가 납부가 발생할 수 있습니다.</div></details></section>
 <section class="related"><h2>함께 보는 계산기</h2><ul><li><a href="/salary/">연봉 실수령액 계산기</a></li><li><a href="/wage-converter/">시급·월급 환산 계산기</a></li></ul></section>
 <p class="disclaimer">이 계산기는 2026년 기준 법정 요율로 계산한 참고용 결과입니다. 실제 급여는 회사 규정, 비과세 항목, 부양가족 요건에 따라 달라질 수 있습니다.</p>
-</main>
 <footer>
   <ul><li><a href="/about/">사이트 소개</a></li><li><a href="/contact/">문의</a></li><li><a href="/privacy/">개인정보처리방침</a></li><li><a href="/terms/">이용약관</a></li></ul>
   <p>&copy; 2026 급여계산 모음</p>
 </footer>
+</div>
+</main>
+</div>
 <script src="/assets/rates.js"></script>
 <script src="/assets/payroll.js"></script>
 <script src="/assets/site.js"></script>
-<script>function run(){
-  var pay=numOf('pay'); var extra=Number(document.getElementById('size').value);
+<script>function setPay(v){
+  document.getElementById('pay').value=v.toLocaleString('ko-KR');
+  run();
+}
+function run(){
+  var pay=numOf('pay'); var extra=Number(pick('size'));
   var i=Payroll.insurance(pay);
   var empExtra=Payroll.floor10(pay*extra);
   var rows=[['국민연금',i.pension,i.pension],['건강보험',i.health,i.health],['장기요양보험',i.ltc,i.ltc],['고용보험(실업급여)',i.employment,i.employment],['고용안정·직업능력개발',0,empExtra],['합계',i.total,i.total+empExtra]];
   setText('emp',Payroll.won(i.total)+'원');
-  document.getElementById('rows').innerHTML=rows.map(function(x){
-    return '<tr><td>'+x[0]+'</td><td class="num">'+Payroll.won(x[1])+'원</td><td class="num">'+Payroll.won(x[2])+'원</td></tr>';}).join('');
+  setText('sub','사업주 부담 '+Payroll.won(i.total+empExtra)+'원');
+  document.getElementById('rows').innerHTML=rows.map(function(x,n){
+    return '<tr'+(n===rows.length-1?' class="tot"':'')+'><td>'+x[0]+'</td><td class="num">'+Payroll.won(x[1])+'원</td><td class="num">'+Payroll.won(x[2])+'원</td></tr>';}).join('');
 }
 document.addEventListener('DOMContentLoaded',run);</script>
 </body>

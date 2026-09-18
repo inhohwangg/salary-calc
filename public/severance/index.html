@@ -1,26 +1,43 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ko" data-theme="dark">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>퇴직금 계산기 2026 | 평균임금 기준 자동 계산</title>
 <meta name="description" content="입사일과 퇴사일, 최근 3개월 급여를 넣으면 평균임금과 퇴직금을 계산합니다. 연간 상여금과 연차수당도 반영합니다.">
 <link rel="canonical" href="https://your-domain.com/severance/">
+<meta name="theme-color" content="#0A0F1E">
 <meta property="og:type" content="website">
 <meta property="og:title" content="퇴직금 계산기 2026 | 평균임금 기준 자동 계산">
 <meta property="og:description" content="입사일과 퇴사일, 최근 3개월 급여를 넣으면 평균임금과 퇴직금을 계산합니다. 연간 상여금과 연차수당도 반영합니다.">
 <meta property="og:url" content="https://your-domain.com/severance/">
 <meta property="og:site_name" content="급여계산 모음">
-<link rel="stylesheet" href="/assets/style.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&family=Noto+Serif+KR:wght@400;500;600&family=Roboto+Mono:wght@400;500;600&family=Source+Serif+4:wght@400;600&display=swap">
+<link id="theme" rel="stylesheet" href="/assets/theme-dark.css">
+<script>/* 저장된 테마를 그리기 전에 적용 — 깜빡임 방지 */
+(function(){try{var t=localStorage.getItem('theme');if(t==='news'||t==='dark'){document.documentElement.setAttribute('data-theme',t);document.getElementById('theme').href='/assets/theme-'+t+'.css';}}catch(e){}})();</script>
 
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"퇴사일은 마지막 근무일인가요?","acceptedAnswer":{"@type":"Answer","text":"퇴직금 계산에서 재직일수는 마지막 근무일까지 포함합니다. 이 계산기의 퇴사일 칸에는 마지막 근무일의 다음 날을 넣으면 재직일수가 정확히 계산됩니다."}},{"@type":"Question","name":"3개월 임금 총액에 무엇을 넣나요?","acceptedAnswer":{"@type":"Answer","text":"기본급뿐 아니라 고정수당, 식대 등 정기적으로 지급된 임금을 모두 포함합니다. 비정기적 상여는 연간 상여금 칸에 따로 넣습니다."}},{"@type":"Question","name":"육아휴직 기간도 포함되나요?","acceptedAnswer":{"@type":"Answer","text":"재직일수에는 포함되지만 평균임금 산정 기간에서는 제외합니다. 휴직 직전 3개월로 계산해야 불이익이 없습니다."}},{"@type":"Question","name":"퇴직금을 미리 받았습니다.","acceptedAnswer":{"@type":"Answer","text":"중간정산을 받았다면 정산 이후 기간만 재직일수로 계산합니다. 입사일 칸에 중간정산 기준일을 넣으세요."}}]}</script>
 </head>
 <body>
-<header class="hd">
-  <a class="logo" href="/">급여계산 모음</a>
-  <nav><ul><li><a href="/salary/">연봉 실수령액</a></li><li><a href="/insurance/">4대보험</a></li><li><a href="/severance/" aria-current="page">퇴직금</a></li><li><a href="/holiday-allowance/">주휴수당</a></li><li><a href="/annual-leave/">연차수당</a></li><li><a href="/wage-converter/">시급·월급 환산</a></li></ul></nav>
+<div class="shell">
+<aside class="side">
+  <a class="brand" href="/"><span class="mark">₩</span><span class="bt"><b>급여계산</b><i>PAYROLL 2026</i></span></a>
+  <nav aria-label="계산기"><ol><li><a href="/">홈</a></li><li><a href="/salary/">연봉 실수령액</a></li><li><a href="/insurance/">4대보험</a></li><li><a href="/severance/" aria-current="page">퇴직금</a></li><li><a href="/holiday-allowance/">주휴수당</a></li><li><a href="/annual-leave/">연차수당</a></li><li><a href="/wage-converter/">시급·월급 환산</a></li><li><a href="/table/salary-2026/">실수령액 표</a></li></ol></nav>
+  <div class="side-foot">
+    <b>요율 기준 2026-09-18</b>
+    <span>모든 계산은 브라우저에서 실행됩니다. 입력한 급여 정보는 서버로 전송되지 않습니다.</span>
+  </div>
+</aside>
+<main class="main">
+<header class="topbar">
+  <div class="code">SEVERANCE · 퇴직금</div>
+  <ul class="badges"><li><b>최저임금</b><span>10,320원</span></li><li><b>국민연금</b><span>9.5%</span></li><li><b>건강보험</b><span>7.19%</span></li></ul>
+  <button type="button" id="themeBtn" class="theme-btn" onclick="toggleTheme()">신문판</button>
 </header>
-<main>
+<div class="content">
 <h1>퇴직금 계산기</h1>
 <p class="intro">1년 이상 일했다면 퇴직금을 받습니다. 퇴직 전 3개월 급여를 기준으로 한 평균임금으로 계산합니다.</p>
 <!-- 광고 자리 (top): 애드센스 승인 후 layout.mjs의 adsenseClient를 채우면 자동 노출 -->
@@ -29,12 +46,12 @@
     <div class="field"><label for="join">입사일</label><input id="join" type="date" value="2022-03-02"></div>
     <div class="field"><label for="leave">퇴사일 (마지막 근무일 다음 날)</label><input id="leave" type="date" value="2026-03-02"></div>
   </div>
-  <div class="field"><label for="m3">퇴직 전 3개월 임금 총액 (원)</label><input id="m3" type="text" inputmode="numeric" data-comma value="9,000,000"></div>
+  <div class="field field--lead"><label for="m3">퇴직 전 3개월 임금 총액 (원)</label><input id="m3" type="text" inputmode="numeric" data-comma value="9,000,000"></div>
   <div class="row">
     <div class="field"><label for="bonus">연간 상여금 (원)</label><input id="bonus" type="text" inputmode="numeric" data-comma value="0"></div>
     <div class="field"><label for="leavepay">연차수당 (직전 1년, 원)</label><input id="leavepay" type="text" inputmode="numeric" data-comma value="0"></div>
   </div>
-  <button type="button" onclick="run()">계산하기</button>
+  <p class="note">평균임금이 통상임금보다 적으면 통상임금으로 계산합니다. 1년 미만 근무자는 퇴직금 지급 대상이 아닙니다.</p>
 </form>
 <div class="result">
   <div>예상 퇴직금 (세전)</div><div class="big" id="pay">-</div>
@@ -57,22 +74,28 @@
 <section class="faq"><h2>자주 묻는 질문</h2><details><summary>퇴사일은 마지막 근무일인가요?</summary><div>퇴직금 계산에서 재직일수는 마지막 근무일까지 포함합니다. 이 계산기의 퇴사일 칸에는 마지막 근무일의 다음 날을 넣으면 재직일수가 정확히 계산됩니다.</div></details><details><summary>3개월 임금 총액에 무엇을 넣나요?</summary><div>기본급뿐 아니라 고정수당, 식대 등 정기적으로 지급된 임금을 모두 포함합니다. 비정기적 상여는 연간 상여금 칸에 따로 넣습니다.</div></details><details><summary>육아휴직 기간도 포함되나요?</summary><div>재직일수에는 포함되지만 평균임금 산정 기간에서는 제외합니다. 휴직 직전 3개월로 계산해야 불이익이 없습니다.</div></details><details><summary>퇴직금을 미리 받았습니다.</summary><div>중간정산을 받았다면 정산 이후 기간만 재직일수로 계산합니다. 입사일 칸에 중간정산 기준일을 넣으세요.</div></details></section>
 <section class="related"><h2>함께 보는 계산기</h2><ul><li><a href="/salary/">연봉 실수령액 계산기</a></li><li><a href="/annual-leave/">연차수당 계산기</a></li></ul></section>
 <p class="disclaimer">이 계산기는 2026년 기준 법정 요율로 계산한 참고용 결과입니다. 실제 급여는 회사 규정, 비과세 항목, 부양가족 요건에 따라 달라질 수 있습니다.</p>
-</main>
 <footer>
   <ul><li><a href="/about/">사이트 소개</a></li><li><a href="/contact/">문의</a></li><li><a href="/privacy/">개인정보처리방침</a></li><li><a href="/terms/">이용약관</a></li></ul>
   <p>&copy; 2026 급여계산 모음</p>
 </footer>
+</div>
+</main>
+</div>
 <script src="/assets/rates.js"></script>
 <script src="/assets/payroll.js"></script>
 <script src="/assets/site.js"></script>
 <script>function run(){
   var j=new Date(document.getElementById('join').value), l=new Date(document.getElementById('leave').value);
-  if(isNaN(j)||isNaN(l)||l<=j){alert('입사일과 퇴사일을 확인해 주세요.');return;}
+  if(isNaN(j)||isNaN(l)||l<=j){
+    setBig('pay','입사일과 퇴사일을 확인해 주세요',true);
+    document.getElementById('rows').innerHTML='';
+    return;
+  }
   var days=Math.round((l-j)/86400000);
   var d3=Math.round((l-new Date(l.getFullYear(),l.getMonth()-3,l.getDate()))/86400000);
   var base=numOf('m3')+numOf('bonus')*3/12+numOf('leavepay')*3/12;
   var avg=base/d3, pay=avg*30*(days/365);
-  setText('pay', days<365? '1년 미만 (지급 대상 아님)' : Payroll.won(pay)+'원');
+  setBig('pay', days<365? '1년 미만 · 지급 대상 아님' : Payroll.won(pay)+'원', days<365);
   var rows=[['재직일수',days+'일'],['평균임금 산정 기간',d3+'일'],['1일 평균임금',Payroll.won(avg)+'원'],['30일분 임금',Payroll.won(avg*30)+'원'],['근속 연수 환산',(days/365).toFixed(2)+'년']];
   document.getElementById('rows').innerHTML=rows.map(function(x){return '<tr><td>'+x[0]+'</td><td class="num">'+x[1]+'</td></tr>';}).join('');
 }

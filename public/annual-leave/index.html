@@ -1,39 +1,54 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ko" data-theme="dark">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>연차수당 계산기 2026 | 미사용 연차 수당 계산</title>
 <meta name="description" content="통상임금을 기준으로 미사용 연차수당을 계산합니다. 입사 연차에 따른 연차 발생 일수도 함께 확인할 수 있습니다.">
 <link rel="canonical" href="https://your-domain.com/annual-leave/">
+<meta name="theme-color" content="#0A0F1E">
 <meta property="og:type" content="website">
 <meta property="og:title" content="연차수당 계산기 2026 | 미사용 연차 수당 계산">
 <meta property="og:description" content="통상임금을 기준으로 미사용 연차수당을 계산합니다. 입사 연차에 따른 연차 발생 일수도 함께 확인할 수 있습니다.">
 <meta property="og:url" content="https://your-domain.com/annual-leave/">
 <meta property="og:site_name" content="급여계산 모음">
-<link rel="stylesheet" href="/assets/style.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&family=Noto+Serif+KR:wght@400;500;600&family=Roboto+Mono:wght@400;500;600&family=Source+Serif+4:wght@400;600&display=swap">
+<link id="theme" rel="stylesheet" href="/assets/theme-dark.css">
+<script>/* 저장된 테마를 그리기 전에 적용 — 깜빡임 방지 */
+(function(){try{var t=localStorage.getItem('theme');if(t==='news'||t==='dark'){document.documentElement.setAttribute('data-theme',t);document.getElementById('theme').href='/assets/theme-'+t+'.css';}}catch(e){}})();</script>
 
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"통상임금과 평균임금은 어떻게 다른가요?","acceptedAnswer":{"@type":"Answer","text":"통상임금은 정기적·일률적으로 지급되는 고정 임금이고, 평균임금은 최근 3개월 실제 지급액 기준입니다. 연차수당은 통상임금, 퇴직금은 평균임금을 씁니다."}},{"@type":"Question","name":"209시간은 어디서 나온 숫자인가요?","acceptedAnswer":{"@type":"Answer","text":"주 40시간 근로에 주휴 8시간을 더한 48시간에 연간 주수를 곱해 월평균으로 환산한 값입니다."}},{"@type":"Question","name":"퇴사할 때 남은 연차는요?","acceptedAnswer":{"@type":"Answer","text":"퇴사 시점까지 발생한 연차 중 사용하지 않은 일수는 모두 수당으로 지급받아야 합니다."}},{"@type":"Question","name":"5인 미만 사업장도 연차가 있나요?","acceptedAnswer":{"@type":"Answer","text":"아닙니다. 연차유급휴가는 상시 5인 이상 사업장에 적용됩니다."}}]}</script>
 </head>
 <body>
-<header class="hd">
-  <a class="logo" href="/">급여계산 모음</a>
-  <nav><ul><li><a href="/salary/">연봉 실수령액</a></li><li><a href="/insurance/">4대보험</a></li><li><a href="/severance/">퇴직금</a></li><li><a href="/holiday-allowance/">주휴수당</a></li><li><a href="/annual-leave/" aria-current="page">연차수당</a></li><li><a href="/wage-converter/">시급·월급 환산</a></li></ul></nav>
+<div class="shell">
+<aside class="side">
+  <a class="brand" href="/"><span class="mark">₩</span><span class="bt"><b>급여계산</b><i>PAYROLL 2026</i></span></a>
+  <nav aria-label="계산기"><ol><li><a href="/">홈</a></li><li><a href="/salary/">연봉 실수령액</a></li><li><a href="/insurance/">4대보험</a></li><li><a href="/severance/">퇴직금</a></li><li><a href="/holiday-allowance/">주휴수당</a></li><li><a href="/annual-leave/" aria-current="page">연차수당</a></li><li><a href="/wage-converter/">시급·월급 환산</a></li><li><a href="/table/salary-2026/">실수령액 표</a></li></ol></nav>
+  <div class="side-foot">
+    <b>요율 기준 2026-09-18</b>
+    <span>모든 계산은 브라우저에서 실행됩니다. 입력한 급여 정보는 서버로 전송되지 않습니다.</span>
+  </div>
+</aside>
+<main class="main">
+<header class="topbar">
+  <div class="code">ANNUAL LEAVE · 연차수당</div>
+  <ul class="badges"><li><b>최저임금</b><span>10,320원</span></li><li><b>국민연금</b><span>9.5%</span></li><li><b>건강보험</b><span>7.19%</span></li></ul>
+  <button type="button" id="themeBtn" class="theme-btn" onclick="toggleTheme()">신문판</button>
 </header>
-<main>
+<div class="content">
 <h1>연차수당 계산기</h1>
 <p class="intro">쓰지 못한 연차는 수당으로 받습니다. 통상임금 기준으로 계산합니다.</p>
 <!-- 광고 자리 (top): 애드센스 승인 후 layout.mjs의 adsenseClient를 채우면 자동 노출 -->
 <form class="card">
+  <div class="field field--lead"><label for="monthly">월 통상임금 (원)</label><input id="monthly" type="text" inputmode="numeric" data-comma value="3,000,000"></div>
   <div class="row">
-    <div class="field"><label for="monthly">월 통상임금 (원)</label><input id="monthly" type="text" inputmode="numeric" data-comma value="3,000,000"></div>
     <div class="field"><label for="daily">1일 소정근로시간</label><input id="daily" type="number" step="0.5" min="1" max="12" value="8"></div>
-  </div>
-  <div class="row">
     <div class="field"><label for="unused">미사용 연차 일수</label><input id="unused" type="number" min="0" max="30" value="5"></div>
-    <div class="field"><label for="years">근속 연수 (연차 발생일 확인용)</label><input id="years" type="number" min="0" max="40" value="3"></div>
+    <div class="field"><label for="years">근속 연수</label><input id="years" type="number" min="0" max="40" value="3"></div>
   </div>
-  <button type="button" onclick="run()">계산하기</button>
+  <p class="note">통상시급 = 월 통상임금 ÷ 209시간. 미사용 연차수당 청구권은 발생일로부터 3년입니다.</p>
 </form>
 <div class="result">
   <div>미사용 연차수당</div><div class="big" id="amt">-</div>
@@ -53,11 +68,13 @@
 <section class="faq"><h2>자주 묻는 질문</h2><details><summary>통상임금과 평균임금은 어떻게 다른가요?</summary><div>통상임금은 정기적·일률적으로 지급되는 고정 임금이고, 평균임금은 최근 3개월 실제 지급액 기준입니다. 연차수당은 통상임금, 퇴직금은 평균임금을 씁니다.</div></details><details><summary>209시간은 어디서 나온 숫자인가요?</summary><div>주 40시간 근로에 주휴 8시간을 더한 48시간에 연간 주수를 곱해 월평균으로 환산한 값입니다.</div></details><details><summary>퇴사할 때 남은 연차는요?</summary><div>퇴사 시점까지 발생한 연차 중 사용하지 않은 일수는 모두 수당으로 지급받아야 합니다.</div></details><details><summary>5인 미만 사업장도 연차가 있나요?</summary><div>아닙니다. 연차유급휴가는 상시 5인 이상 사업장에 적용됩니다.</div></details></section>
 <section class="related"><h2>함께 보는 계산기</h2><ul><li><a href="/severance/">퇴직금 계산기</a></li><li><a href="/salary/">연봉 실수령액 계산기</a></li></ul></section>
 <p class="disclaimer">이 계산기는 2026년 기준 법정 요율로 계산한 참고용 결과입니다. 실제 급여는 회사 규정, 비과세 항목, 부양가족 요건에 따라 달라질 수 있습니다.</p>
-</main>
 <footer>
   <ul><li><a href="/about/">사이트 소개</a></li><li><a href="/contact/">문의</a></li><li><a href="/privacy/">개인정보처리방침</a></li><li><a href="/terms/">이용약관</a></li></ul>
   <p>&copy; 2026 급여계산 모음</p>
 </footer>
+</div>
+</main>
+</div>
 <script src="/assets/rates.js"></script>
 <script src="/assets/payroll.js"></script>
 <script src="/assets/site.js"></script>

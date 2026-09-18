@@ -1,37 +1,59 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ko" data-theme="dark">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>시급 월급 환산 계산기 | 연봉까지 한 번에</title>
 <meta name="description" content="시급, 일급, 주급, 월급, 연봉을 서로 환산합니다. 주휴수당 포함 여부를 선택할 수 있습니다.">
 <link rel="canonical" href="https://your-domain.com/wage-converter/">
+<meta name="theme-color" content="#0A0F1E">
 <meta property="og:type" content="website">
 <meta property="og:title" content="시급 월급 환산 계산기 | 연봉까지 한 번에">
 <meta property="og:description" content="시급, 일급, 주급, 월급, 연봉을 서로 환산합니다. 주휴수당 포함 여부를 선택할 수 있습니다.">
 <meta property="og:url" content="https://your-domain.com/wage-converter/">
 <meta property="og:site_name" content="급여계산 모음">
-<link rel="stylesheet" href="/assets/style.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&family=Noto+Serif+KR:wght@400;500;600&family=Roboto+Mono:wght@400;500;600&family=Source+Serif+4:wght@400;600&display=swap">
+<link id="theme" rel="stylesheet" href="/assets/theme-dark.css">
+<script>/* 저장된 테마를 그리기 전에 적용 — 깜빡임 방지 */
+(function(){try{var t=localStorage.getItem('theme');if(t==='news'||t==='dark'){document.documentElement.setAttribute('data-theme',t);document.getElementById('theme').href='/assets/theme-'+t+'.css';}}catch(e){}})();</script>
 
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"주 20시간 근무면 월 소정근로시간은 몇 시간인가요?","acceptedAnswer":{"@type":"Answer","text":"주 20시간이면 주휴 4시간이 더해져 주 24시간, 월 약 104.5시간입니다."}},{"@type":"Question","name":"연봉에 퇴직금이 포함된 경우는?","acceptedAnswer":{"@type":"Answer","text":"퇴직금 포함 연봉은 13으로 나눠야 실제 월 급여가 됩니다. 고용노동부는 퇴직금 분할 지급을 원칙적으로 무효로 봅니다."}},{"@type":"Question","name":"주 5일 8시간 근무면 월급은 얼마인가요?","acceptedAnswer":{"@type":"Answer","text":"2026년 최저임금 기준 2,156,880원입니다. 여기서 4대보험과 세금이 공제됩니다."}}]}</script>
 </head>
 <body>
-<header class="hd">
-  <a class="logo" href="/">급여계산 모음</a>
-  <nav><ul><li><a href="/salary/">연봉 실수령액</a></li><li><a href="/insurance/">4대보험</a></li><li><a href="/severance/">퇴직금</a></li><li><a href="/holiday-allowance/">주휴수당</a></li><li><a href="/annual-leave/">연차수당</a></li><li><a href="/wage-converter/" aria-current="page">시급·월급 환산</a></li></ul></nav>
+<div class="shell">
+<aside class="side">
+  <a class="brand" href="/"><span class="mark">₩</span><span class="bt"><b>급여계산</b><i>PAYROLL 2026</i></span></a>
+  <nav aria-label="계산기"><ol><li><a href="/">홈</a></li><li><a href="/salary/">연봉 실수령액</a></li><li><a href="/insurance/">4대보험</a></li><li><a href="/severance/">퇴직금</a></li><li><a href="/holiday-allowance/">주휴수당</a></li><li><a href="/annual-leave/">연차수당</a></li><li><a href="/wage-converter/" aria-current="page">시급·월급 환산</a></li><li><a href="/table/salary-2026/">실수령액 표</a></li></ol></nav>
+  <div class="side-foot">
+    <b>요율 기준 2026-09-18</b>
+    <span>모든 계산은 브라우저에서 실행됩니다. 입력한 급여 정보는 서버로 전송되지 않습니다.</span>
+  </div>
+</aside>
+<main class="main">
+<header class="topbar">
+  <div class="code">CONVERT · 환산</div>
+  <ul class="badges"><li><b>최저임금</b><span>10,320원</span></li><li><b>국민연금</b><span>9.5%</span></li><li><b>건강보험</b><span>7.19%</span></li></ul>
+  <button type="button" id="themeBtn" class="theme-btn" onclick="toggleTheme()">신문판</button>
 </header>
-<main>
+<div class="content">
 <h1>시급·월급 환산 계산기</h1>
 <p class="intro">하나만 입력하면 나머지를 모두 환산합니다. 월급은 주 40시간 기준 209시간으로 계산합니다.</p>
 <!-- 광고 자리 (top): 애드센스 승인 후 layout.mjs의 adsenseClient를 채우면 자동 노출 -->
 <form class="card">
-  <div class="row">
-    <div class="field"><label for="amount">금액 (원)</label><input id="amount" type="text" inputmode="numeric" data-comma value="10,320"></div>
-    <div class="field"><label for="unit">입력 단위</label>
-      <select id="unit"><option value="hour">시급</option><option value="day">일급(8시간)</option><option value="week">주급(40시간)</option><option value="month">월급</option><option value="year">연봉</option></select>
-    </div>
+  <div class="field">
+    <label id="unitLabel">입력 단위</label>
+    <ul class="seg" role="radiogroup" aria-labelledby="unitLabel">
+      <li><label><input type="radio" name="unit" value="hour" checked>시급</label></li>
+      <li><label><input type="radio" name="unit" value="day">일급</label></li>
+      <li><label><input type="radio" name="unit" value="week">주급</label></li>
+      <li><label><input type="radio" name="unit" value="month">월급</label></li>
+      <li><label><input type="radio" name="unit" value="year">연봉</label></li>
+    </ul>
   </div>
-  <button type="button" onclick="run()">환산하기</button>
+  <div class="field field--lead"><label for="amount">금액 (원)</label><input id="amount" type="text" inputmode="numeric" data-comma value="10,320"></div>
+  <p class="note">209시간 = (주 40시간 + 주휴 8시간) × 365 ÷ 7 ÷ 12. 최저임금 위반 여부도 이 기준으로 판단합니다.</p>
 </form>
 <div class="result">
   <table><tbody id="rows"></tbody></table>
@@ -49,21 +71,24 @@
 <section class="faq"><h2>자주 묻는 질문</h2><details><summary>주 20시간 근무면 월 소정근로시간은 몇 시간인가요?</summary><div>주 20시간이면 주휴 4시간이 더해져 주 24시간, 월 약 104.5시간입니다.</div></details><details><summary>연봉에 퇴직금이 포함된 경우는?</summary><div>퇴직금 포함 연봉은 13으로 나눠야 실제 월 급여가 됩니다. 고용노동부는 퇴직금 분할 지급을 원칙적으로 무효로 봅니다.</div></details><details><summary>주 5일 8시간 근무면 월급은 얼마인가요?</summary><div>2026년 최저임금 기준 2,156,880원입니다. 여기서 4대보험과 세금이 공제됩니다.</div></details></section>
 <section class="related"><h2>함께 보는 계산기</h2><ul><li><a href="/holiday-allowance/">주휴수당 계산기</a></li><li><a href="/salary/">연봉 실수령액 계산기</a></li></ul></section>
 <p class="disclaimer">이 계산기는 2026년 기준 법정 요율로 계산한 참고용 결과입니다. 실제 급여는 회사 규정, 비과세 항목, 부양가족 요건에 따라 달라질 수 있습니다.</p>
-</main>
 <footer>
   <ul><li><a href="/about/">사이트 소개</a></li><li><a href="/contact/">문의</a></li><li><a href="/privacy/">개인정보처리방침</a></li><li><a href="/terms/">이용약관</a></li></ul>
   <p>&copy; 2026 급여계산 모음</p>
 </footer>
+</div>
+</main>
+</div>
 <script src="/assets/rates.js"></script>
 <script src="/assets/payroll.js"></script>
 <script src="/assets/site.js"></script>
 <script>function run(){
-  var v=numOf('amount'), u=document.getElementById('unit').value, H=209;
+  var v=numOf('amount'), u=pick('unit'), H=209;
   var hour;
   if(u==='hour')hour=v; else if(u==='day')hour=v/8; else if(u==='week')hour=v/40; else if(u==='month')hour=v/H; else hour=v/12/H;
   var month=hour*H;
-  var rows=[['시급',hour],['일급(8시간)',hour*8],['주급(40시간+주휴)',hour*48],['월급(209시간)',month],['연봉',month*12]];
-  document.getElementById('rows').innerHTML=rows.map(function(x){return '<tr><td>'+x[0]+'</td><td class="num">'+Payroll.won(x[1])+'원</td></tr>';}).join('');
+  var rows=[['시급',hour,'hour'],['일급 (8시간)',hour*8,'day'],['주급 (40시간 + 주휴)',hour*48,'week'],['월급 (209시간)',month,'month'],['연봉',month*12,'year']];
+  document.getElementById('rows').innerHTML=rows.map(function(x){
+    return '<tr'+(x[2]===u?' class="on"':'')+'><td>'+x[0]+'</td><td class="num">'+Payroll.won(x[1])+'원</td></tr>';}).join('');
 }
 document.addEventListener('DOMContentLoaded',run);</script>
 </body>
