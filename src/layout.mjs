@@ -1,6 +1,6 @@
 export const SITE = {
   name: '급여계산 모음',
-  domain: 'https://your-domain.com', // scripts/set-domain.mjs 로 한 번에 교체
+  domain: 'https://salary-calc.makeplaylab.com', // scripts/set-domain.mjs 로 한 번에 교체
   desc: '연봉 실수령액, 4대보험, 퇴직금, 주휴수당을 2026년 기준으로 계산합니다.',
   adsenseClient: '', // 승인 후 'ca-pub-0000000000000000' 형태로 채우면 광고가 켜집니다
   rates: null // build.mjs 가 public/assets/rates.js 를 읽어 주입 (헤더 요율 배지용)

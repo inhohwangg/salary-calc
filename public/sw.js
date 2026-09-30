@@ -1,6 +1,6 @@
 /* 서비스워커 템플릿. build.mjs 가 아래 두 자리표를 채워
    public/sw.js 로 씁니다. 이 파일을 직접 배포하지 않습니다. */
-const VERSION = 'af758d52d158';
+const VERSION = 'db2b64b9222d';
 const CORE = ["/","/table/salary-2026/","/about/","/contact/","/privacy/","/terms/","/salary/","/insurance/","/severance/","/holiday-allowance/","/annual-leave/","/wage-converter/","/404.html","/assets/theme-dark.css","/assets/theme-news.css","/assets/pwa.css","/assets/rates.js","/assets/payroll.js","/assets/site.js","/assets/pwa.js","/manifest.webmanifest","/icon.svg","/icon-maskable.svg"];
 const PRE = 'pre-' + VERSION;
 const FONT = 'font-v1';
